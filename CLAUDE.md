@@ -57,7 +57,7 @@ sf6_database_ver2/
 ## データ構造
 
 ### 統一データフォーマット
-全ての項目で統一された構造を使用：
+全ての項目（対策・強い行動・コンボ）で統一された構造を使用：
 ```json
 {
   "item_name": "項目名",
@@ -66,15 +66,16 @@ sf6_database_ver2/
 }
 ```
 
-### キャラクターデータ構造
+### 対策データ構造 (counter_strategies.json)
 ```json
 {
   "characterId": "ryu",
   "characterName": "リュウ",
   "categoryNames": {
     "punishes": "確定反撃",
-    "antiAir": "対空対策", 
-    "user1" : "俺的ワンポイント対策",
+    "antiAir": "対空対策",
+    "weaknesses": "弱点・対処法",
+    "user1": "俺的ワンポイント対策"
   },
   "punishes": [
     {
@@ -87,19 +88,113 @@ sf6_database_ver2/
     {
       "item_name": "ジャンプ大K",
       "content": "ジャストパリィ or 屈大P or 昇竜拳",
-      "description": "リュウの大Kは長いので、きついと思ったらガードでも全然いい" 
+      "description": "リュウの大Kは長いので、きついと思ったらガードでも全然いい"
     }
   ],
-  "user1" :{
+  "user1": [
     {
       "item_name": "ラッシュ対策",
       "content": "ラッシュをガン見して、立Pで止める",
-      "description": "距離に合わせて小中大を選択" 
+      "description": "距離に合わせて小中大を選択"
     }
-  }
-  
+  ]
 }
 ```
+
+### 強い行動データ構造 (strong_actions.json)
+```json
+{
+  "characterId": "ryu",
+  "characterName": "リュウ",
+  "categoryNames": {
+    "strongMoves": "主力技",
+    "strongSequences": "強力な連係",
+    "okizeme": "起き攻め・セットプレイ",
+    "user2": "使える小ネタ"
+  },
+  "strongMoves": [
+    {
+      "item_name": "立ち中K",
+      "content": "牽制技として優秀",
+      "description": "リーチが長く、ヒット時は波動拳でフォロー"
+    }
+  ],
+  "user2": [
+    {
+      "item_name": "投げ後の起き攻め",
+      "content": "前ステップ → 打撃 or 投げ二択",
+      "description": "相手のリバーサルを読んだらガードして反撃"
+    }
+  ]
+}
+```
+
+### コンボデータ構造 (combo_recipes.json)
+```json
+{
+  "characterId": "ryu",
+  "characterName": "リュウ",
+  "categoryNames": {
+    "basicCombos": "基本コンボ",
+    "situationalCombos": "状況別コンボ",
+    "meterCombos": "ゲージ使用コンボ",
+    "user3": "オリジナルコンボ"
+  },
+  "basicCombos": [
+    {
+      "item_name": "屈中K → 波動拳",
+      "content": "ダメージ: 240",
+      "description": "基本的な確定コンボ。初心者にも簡単"
+    }
+  ],
+  "user3": [
+    {
+      "item_name": "カウンター限定コンボ",
+      "content": "立ち中K(CH) → 前歩き → 屈中P → 昇龍拳",
+      "description": "カウンターヒット限定の高ダメージコンボ"
+    }
+  ]
+}
+```
+
+### ユーザ作成カテゴリの仕組み
+
+#### カテゴリ作成プロセス
+1. 編集モードで「新しいカテゴリを追加」ボタンをクリック
+2. ユーザがカテゴリ名を入力（例：「俺的コンボ」）
+3. システムが内部キー "user1", "user2", "user3"... を自動割り当て
+4. `categoryNames` に追加：
+   ```json
+   "categoryNames": {
+     "punishes": "確定反撃",
+     "user1": "俺的コンボ"
+   }
+   ```
+5. 対応するデータ配列を初期化：
+   ```json
+   "user1": []
+   ```
+
+#### アイテム追加プロセス
+1. ユーザ作成カテゴリで「新しいアイテムを追加」をクリック
+2. 編集フォームが表示：
+   - **アイテム名**: 技名やコンボ名など
+   - **内容**: 基本的な情報や手順
+   - **説明**: 詳細な解説や注意点
+3. 保存時に統一フォーマットで配列に追加
+
+### HTMLとJSON連携
+
+#### 動的ヘッダー表示
+- `index.html` では静的なキャラクター一覧を定義
+- `character.js` の `renderCounterStrategies()` 等がJSONの `categoryNames` を参照
+- カテゴリヘッダーはJSONの表示名を動的に表示：
+  ```javascript
+  Object.entries(categoryNames).forEach(([key, name]) => {
+      // name = "確定反撃" や "俺的コンボ" 等のユーザー表示名
+      container.innerHTML += `<h3>${name}</h3>`;
+  });
+  ```
 
 ## 重要な設計原則
 

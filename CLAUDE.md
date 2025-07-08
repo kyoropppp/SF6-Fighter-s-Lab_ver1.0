@@ -239,6 +239,107 @@ sf6_database_ver2/
 - ネスト形式: `{ "counterStrategies": { "strategies": [...] } }`
 - フラット形式: `{ "strategies": [...] }`
 
+## インポート・エクスポート形式
+
+### 基本仕様
+**エクスポートしたJSONファイルはそのままインポート可能**
+
+### エクスポート形式
+- **処理ファイル**: editor.js
+- **出力ファイル名**: sf6_database_export.json
+- **形式**: フラット形式（トップレベルキー配置）
+
+```json
+{
+  "characters": {
+    "characters": [...]
+  },
+  "strategies": [
+    {
+      "characterId": "ryu",
+      "characterName": "リュウ",
+      "categoryNames": {
+        "punishes": "確定反撃",
+        "antiAir": "対空対策"
+      },
+      "punishes": [...],
+      "antiAir": [...]
+    }
+  ],
+  "actions": [
+    {
+      "characterId": "ryu",
+      "characterName": "リュウ",
+      "categoryNames": {
+        "strongMoves": "主力技",
+        "strongSequences": "強力な連係"
+      },
+      "strongMoves": [...],
+      "strongSequences": [...]
+    }
+  ],
+  "combos": [
+    {
+      "characterId": "ryu",
+      "characterName": "リュウ",
+      "categoryNames": {
+        "basicCombos": "基本コンボ",
+        "situationalCombos": "状況別コンボ"
+      },
+      "basicCombos": [...],
+      "situationalCombos": [...]
+    }
+  ],
+  "settings": {
+    "display": {...},
+    "characterOrder": [...],
+    "userSettings": {...}
+  }
+}
+```
+
+### インポート対応形式
+- **処理ファイル**: storage.js
+- **対応形式**: フラット形式・ネスト形式の両方
+
+#### フラット形式（エクスポートファイル互換）
+```json
+{
+  "characters": {...},
+  "strategies": [...],
+  "actions": [...],
+  "combos": [...],
+  "settings": {...}
+}
+```
+
+#### ネスト形式（個別JSONファイル）
+```json
+{
+  "characters": {...},
+  "counterStrategies": {
+    "strategies": [...]
+  },
+  "strongActions": {
+    "actions": [...]
+  },
+  "comboRecipes": {
+    "combos": [...]
+  },
+  "settings": {...}
+}
+```
+
+### 形式変換処理
+- **自動判別**: フラット/ネスト形式を自動判別
+- **内部変換**: フラット形式をネスト形式に変換してSF6_DATAに格納
+- **互換性**: 既存の個別JSONファイルも引き続き利用可能
+
+### バリデーション要件
+- 全キャラクターデータで `categoryNames` オブジェクト必須
+- フラット・ネスト形式問わず同一バリデーション適用
+- エラー時は具体的なキャラクターIDとともにエラー出力
+
 ## 開発・運用
 
 ### 初回起動

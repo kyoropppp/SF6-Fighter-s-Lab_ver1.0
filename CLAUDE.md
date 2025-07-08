@@ -74,7 +74,7 @@ sf6_database_ver2/
   "categoryNames": {
     "punishes": "確定反撃",
     "antiAir": "対空対策", 
-    "users1" : "俺的ワンポイント対策",
+    "user1" : "俺的ワンポイント対策",
   },
   "punishes": [
     {
@@ -90,7 +90,7 @@ sf6_database_ver2/
       "description": "リュウの大Kは長いので、きついと思ったらガードでも全然いい" 
     }
   ],
-  "users1" :{
+  "user1" :{
     {
       "item_name": "ラッシュ対策",
       "content": "ラッシュをガン見して、立Pで止める",

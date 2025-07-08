@@ -50,3 +50,22 @@ think hard; インポートおよびエクスポートするJSON形式の明記
 
 開発者は、CLAUDE.mdを読んで実装を行う. 各JSファイルの役割は明記しつつ、"editor.js:532-538の処理に基づく正確な構造"のように、JSの内容そのものには触れない. 
 
+---
+
+think hard; export時には localStrage の内容を出力し、import時には、localStrageの内容を書き換える、という記述がほしい。それを考えた時、下記は必要？
+
+### 1. localStorage統合
+- `SF6_DATA` ProxyによりlocalStorageと自動同期
+- データ変更時の自動保存
+- 手動保存操作不要
+
+---
+ultrathink; I ask you if this structure below is appropriate;
+    ├── counter_strategies.json # 対策データ
+    ├── strong_actions.json     # 強い行動データ
+    ├── combo_recipes.json      # コンボレシピ
+
+データは汎用性が高くなるよう目指しており、すべてまとめて"data.json"としたエクスポートやインポートにも便利では？ あなたの意見は？
+
+
+

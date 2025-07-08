@@ -1,0 +1,112 @@
+{
+  "characters": [
+    {
+      "id": "ryu",
+      "name": "リュウ",
+      "nameEn": "Ryu",
+      "icon": "images/characters/ryu.png"
+    },
+    {
+      "id": "chun-li",
+      "name": "春麗",
+      "nameEn": "Chun-Li",
+      "icon": "images/characters/chun-li.png"
+    },
+    {
+      "id": "luke",
+      "name": "ルーク",
+      "nameEn": "Luke",
+      "icon": "images/characters/luke.png"
+    },
+    {
+      "id": "jamie",
+      "name": "ジェイミー",
+      "nameEn": "Jamie",
+      "icon": "images/characters/jamie.png"
+    },
+    {
+      "id": "manon",
+      "name": "マノン",
+      "nameEn": "Manon",
+      "icon": "images/characters/manon.png"
+    },
+    {
+      "id": "kimberly",
+      "name": "キンバリー",
+      "nameEn": "Kimberly",
+      "icon": "images/characters/kimberly.png"
+    },
+    {
+      "id": "marisa",
+      "name": "マリーザ",
+      "nameEn": "Marisa",
+      "icon": "images/characters/marisa.png"
+    },
+    {
+      "id": "jp",
+      "name": "JP",
+      "nameEn": "JP",
+      "icon": "images/characters/jp.png"
+    },
+    {
+      "id": "juri",
+      "name": "ジュリ",
+      "nameEn": "Juri",
+      "icon": "images/characters/juri.png"
+    },
+    {
+      "id": "dee-jay",
+      "name": "ディージェイ",
+      "nameEn": "Dee Jay",
+      "icon": "images/characters/dee-jay.png"
+    },
+    {
+      "id": "cammy",
+      "name": "キャミィ",
+      "nameEn": "Cammy",
+      "icon": "images/characters/cammy.png"
+    },
+    {
+      "id": "lily",
+      "name": "リリー",
+      "nameEn": "Lily",
+      "icon": "images/characters/lily.png"
+    },
+    {
+      "id": "zangief",
+      "name": "ザンギエフ",
+      "nameEn": "Zangief",
+      "icon": "images/characters/zangief.png"
+    },
+    {
+      "id": "ken",
+      "name": "ケン",
+      "nameEn": "Ken",
+      "icon": "images/characters/ken.png"
+    },
+    {
+      "id": "blanka",
+      "name": "ブランカ",
+      "nameEn": "Blanka",
+      "icon": "images/characters/blanka.png"
+    },
+    {
+      "id": "dhalsim",
+      "name": "ダルシム",
+      "nameEn": "Dhalsim",
+      "icon": "images/characters/dhalsim.png"
+    },
+    {
+      "id": "honda",
+      "name": "本田",
+      "nameEn": "E. Honda",
+      "icon": "images/characters/honda.png"
+    },
+    {
+      "id": "guile",
+      "name": "ガイル",
+      "nameEn": "Guile",
+      "icon": "images/characters/guile.png"
+    }
+  ]
+}

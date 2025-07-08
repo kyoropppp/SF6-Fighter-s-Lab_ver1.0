@@ -1,0 +1,31 @@
+{
+  "display": {
+    "theme": "dark",
+    "fontSize": "medium",
+    "defaultMode": "counter"
+  },
+  "characterOrder": [
+    "ryu",
+    "chun-li",
+    "luke",
+    "jamie",
+    "manon",
+    "kimberly",
+    "marisa",
+    "jp",
+    "juri",
+    "dee-jay",
+    "cammy",
+    "lily",
+    "zangief",
+    "ken",
+    "blanka",
+    "dhalsim",
+    "honda",
+    "guile"
+  ],
+  "userSettings": {
+    "favoriteCharacters": [],
+    "recentlyViewed": []
+  }
+}

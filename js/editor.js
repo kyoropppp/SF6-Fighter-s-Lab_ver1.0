@@ -279,15 +279,13 @@ class Editor {
             
             storageManager.validateDataStructure(normalizedData);
             
-            if (dataManager.loadData(normalizedData)) {
-                dataManager.saveToStorage();
-                
+            if (dataManager.loadDataToTemp(normalizedData)) {
                 if (window.characterRenderer) {
                     window.characterRenderer.refreshDisplay();
                 }
                 
                 this.updateDataInfo();
-                this.showMessage('データをインポートしました', 'success');
+                this.showMessage('データをインポートしました（未保存）', 'success');
             } else {
                 throw new Error('データの読み込みに失敗しました');
             }

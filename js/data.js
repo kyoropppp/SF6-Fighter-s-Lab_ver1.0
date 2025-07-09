@@ -420,6 +420,46 @@ class DataManager {
 
         return true;
     }
+
+    loadDataToTemp(jsonData) {
+        if (!this.isEditMode) {
+            this.startEditMode();
+        }
+        
+        try {
+            if (jsonData.characters) {
+                this.tempData.characters = jsonData.characters;
+            }
+            
+            if (jsonData.strategies) {
+                this.tempData.strategies = jsonData.strategies;
+            } else if (jsonData.counterStrategies && jsonData.counterStrategies.strategies) {
+                this.tempData.strategies = jsonData.counterStrategies.strategies;
+            }
+            
+            if (jsonData.actions) {
+                this.tempData.actions = jsonData.actions;
+            } else if (jsonData.strongActions && jsonData.strongActions.actions) {
+                this.tempData.actions = jsonData.strongActions.actions;
+            }
+            
+            if (jsonData.combos) {
+                this.tempData.combos = jsonData.combos;
+            } else if (jsonData.comboRecipes && jsonData.comboRecipes.combos) {
+                this.tempData.combos = jsonData.comboRecipes.combos;
+            }
+            
+            if (jsonData.settings) {
+                this.tempData.settings = { ...this.tempData.settings, ...jsonData.settings };
+            }
+            
+            this.hasUnsavedChanges = true;
+            return true;
+        } catch (error) {
+            console.error('一時データの読み込みに失敗しました:', error);
+            return false;
+        }
+    }
 }
 
 const dataManager = new DataManager();

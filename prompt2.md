@@ -67,5 +67,30 @@ ultrathink; I ask you if this structure below is appropriate;
 
 データは汎用性が高くなるよう目指しており、すべてまとめて"data.json"としたエクスポートやインポートにも便利では？ あなたの意見は？
 
+---
+think hard; read CLAUDE.md again then edit the content with instructions below.
+1. このファイルは、変更点の記載ではなく、仕様書としての構成で作成. 
+1. 現在の構成と異なる点は修正. 
+1. 但し、
+#### カテゴリ作成プロセス
+#### アイテム追加プロセス
+#### 動的ヘッダー表示
+をはじめとして、内容自体の簡素化は行わない. あくまで、仕様書としての体裁への変更. 
+
+---
+Thanks. 
+think; 続いて、下記を明記するにはどのように書けばいいか？
+- サンプルデータを枠組みの中に絶対に紛れ込ませたくない！
+    - サンプルデータ専用の関数は絶対に作成しない. 
+    - サンプルデータを作る場合は、data.jsonへと書き込む。初回起動時、それをインポートすればいい. 
+
+--- 
+
+read whole the project, understand the structure, and plan the layout changes below;  
+- 「キャラクター選択」を左側のリストへ移動
+- キャラクターを選択したら、選択されたキャラクターの「対策」へ遷移
+
+--- 
+
 
 

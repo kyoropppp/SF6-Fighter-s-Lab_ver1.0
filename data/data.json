@@ -158,6 +158,198 @@
           "description": "中距離でのポケモンを得意とするので、近づいてプレッシャーをかける"
         }
       ]
+    },
+    {
+      "characterId": "ken",
+      "characterName": "ケン",
+      "categoryNames": {
+        "punishes": "確定反撃",
+        "antiAir": "対空対策",
+        "weaknesses": "弱点・対処法"
+      },
+      "punishes": [],
+      "antiAir": [],
+      "weaknesses": []
+    },
+    {
+      "characterId": "luke",
+      "characterName": "ルーク",
+      "categoryNames": {
+        "punishes": "確定反撃",
+        "antiAir": "対空対策",
+        "weaknesses": "弱点・対処法"
+      },
+      "punishes": [],
+      "antiAir": [],
+      "weaknesses": []
+    },
+    {
+      "characterId": "jamie",
+      "characterName": "ジェイミー",
+      "categoryNames": {
+        "punishes": "確定反撃",
+        "antiAir": "対空対策",
+        "weaknesses": "弱点・対処法"
+      },
+      "punishes": [],
+      "antiAir": [],
+      "weaknesses": []
+    },
+    {
+      "characterId": "manon",
+      "characterName": "マノン",
+      "categoryNames": {
+        "punishes": "確定反撃",
+        "antiAir": "対空対策",
+        "weaknesses": "弱点・対処法"
+      },
+      "punishes": [],
+      "antiAir": [],
+      "weaknesses": []
+    },
+    {
+      "characterId": "kimberly",
+      "characterName": "キンバリー",
+      "categoryNames": {
+        "punishes": "確定反撃",
+        "antiAir": "対空対策",
+        "weaknesses": "弱点・対処法"
+      },
+      "punishes": [],
+      "antiAir": [],
+      "weaknesses": []
+    },
+    {
+      "characterId": "marisa",
+      "characterName": "マリーザ",
+      "categoryNames": {
+        "punishes": "確定反撃",
+        "antiAir": "対空対策",
+        "weaknesses": "弱点・対処法"
+      },
+      "punishes": [],
+      "antiAir": [],
+      "weaknesses": []
+    },
+    {
+      "characterId": "lily",
+      "characterName": "リリー",
+      "categoryNames": {
+        "punishes": "確定反撃",
+        "antiAir": "対空対策",
+        "weaknesses": "弱点・対処法"
+      },
+      "punishes": [],
+      "antiAir": [],
+      "weaknesses": []
+    },
+    {
+      "characterId": "jp",
+      "characterName": "JP",
+      "categoryNames": {
+        "punishes": "確定反撃",
+        "antiAir": "対空対策",
+        "weaknesses": "弱点・対処法"
+      },
+      "punishes": [],
+      "antiAir": [],
+      "weaknesses": []
+    },
+    {
+      "characterId": "juri",
+      "characterName": "ユリ",
+      "categoryNames": {
+        "punishes": "確定反撃",
+        "antiAir": "対空対策",
+        "weaknesses": "弱点・対処法"
+      },
+      "punishes": [],
+      "antiAir": [],
+      "weaknesses": []
+    },
+    {
+      "characterId": "dee-jay",
+      "characterName": "ディージェイ",
+      "categoryNames": {
+        "punishes": "確定反撃",
+        "antiAir": "対空対策",
+        "weaknesses": "弱点・対処法"
+      },
+      "punishes": [],
+      "antiAir": [],
+      "weaknesses": []
+    },
+    {
+      "characterId": "cammy",
+      "characterName": "キャミィ",
+      "categoryNames": {
+        "punishes": "確定反撃",
+        "antiAir": "対空対策",
+        "weaknesses": "弱点・対処法"
+      },
+      "punishes": [],
+      "antiAir": [],
+      "weaknesses": []
+    },
+    {
+      "characterId": "guile",
+      "characterName": "ガイル",
+      "categoryNames": {
+        "punishes": "確定反撃",
+        "antiAir": "対空対策",
+        "weaknesses": "弱点・対処法"
+      },
+      "punishes": [],
+      "antiAir": [],
+      "weaknesses": []
+    },
+    {
+      "characterId": "e-honda",
+      "characterName": "E.本田",
+      "categoryNames": {
+        "punishes": "確定反撃",
+        "antiAir": "対空対策",
+        "weaknesses": "弱点・対処法"
+      },
+      "punishes": [],
+      "antiAir": [],
+      "weaknesses": []
+    },
+    {
+      "characterId": "blanka",
+      "characterName": "ブランカ",
+      "categoryNames": {
+        "punishes": "確定反撃",
+        "antiAir": "対空対策",
+        "weaknesses": "弱点・対処法"
+      },
+      "punishes": [],
+      "antiAir": [],
+      "weaknesses": []
+    },
+    {
+      "characterId": "dhalsim",
+      "characterName": "ダルシム",
+      "categoryNames": {
+        "punishes": "確定反撃",
+        "antiAir": "対空対策",
+        "weaknesses": "弱点・対処法"
+      },
+      "punishes": [],
+      "antiAir": [],
+      "weaknesses": []
+    },
+    {
+      "characterId": "zangief",
+      "characterName": "ザンギエフ",
+      "categoryNames": {
+        "punishes": "確定反撃",
+        "antiAir": "対空対策",
+        "weaknesses": "弱点・対処法"
+      },
+      "punishes": [],
+      "antiAir": [],
+      "weaknesses": []
     }
   ],
   "actions": [
@@ -225,6 +417,198 @@
           "description": "相手の逃げを封じる"
         }
       ]
+    },
+    {
+      "characterId": "ken",
+      "characterName": "ケン",
+      "categoryNames": {
+        "strongMoves": "主力技",
+        "strongSequences": "強力な連係",
+        "okizeme": "起き攻め・セットプレイ"
+      },
+      "strongMoves": [],
+      "strongSequences": [],
+      "okizeme": []
+    },
+    {
+      "characterId": "luke",
+      "characterName": "ルーク",
+      "categoryNames": {
+        "strongMoves": "主力技",
+        "strongSequences": "強力な連係",
+        "okizeme": "起き攻め・セットプレイ"
+      },
+      "strongMoves": [],
+      "strongSequences": [],
+      "okizeme": []
+    },
+    {
+      "characterId": "jamie",
+      "characterName": "ジェイミー",
+      "categoryNames": {
+        "strongMoves": "主力技",
+        "strongSequences": "強力な連係",
+        "okizeme": "起き攻め・セットプレイ"
+      },
+      "strongMoves": [],
+      "strongSequences": [],
+      "okizeme": []
+    },
+    {
+      "characterId": "manon",
+      "characterName": "マノン",
+      "categoryNames": {
+        "strongMoves": "主力技",
+        "strongSequences": "強力な連係",
+        "okizeme": "起き攻め・セットプレイ"
+      },
+      "strongMoves": [],
+      "strongSequences": [],
+      "okizeme": []
+    },
+    {
+      "characterId": "kimberly",
+      "characterName": "キンバリー",
+      "categoryNames": {
+        "strongMoves": "主力技",
+        "strongSequences": "強力な連係",
+        "okizeme": "起き攻め・セットプレイ"
+      },
+      "strongMoves": [],
+      "strongSequences": [],
+      "okizeme": []
+    },
+    {
+      "characterId": "marisa",
+      "characterName": "マリーザ",
+      "categoryNames": {
+        "strongMoves": "主力技",
+        "strongSequences": "強力な連係",
+        "okizeme": "起き攻め・セットプレイ"
+      },
+      "strongMoves": [],
+      "strongSequences": [],
+      "okizeme": []
+    },
+    {
+      "characterId": "lily",
+      "characterName": "リリー",
+      "categoryNames": {
+        "strongMoves": "主力技",
+        "strongSequences": "強力な連係",
+        "okizeme": "起き攻め・セットプレイ"
+      },
+      "strongMoves": [],
+      "strongSequences": [],
+      "okizeme": []
+    },
+    {
+      "characterId": "jp",
+      "characterName": "JP",
+      "categoryNames": {
+        "strongMoves": "主力技",
+        "strongSequences": "強力な連係",
+        "okizeme": "起き攻め・セットプレイ"
+      },
+      "strongMoves": [],
+      "strongSequences": [],
+      "okizeme": []
+    },
+    {
+      "characterId": "juri",
+      "characterName": "ユリ",
+      "categoryNames": {
+        "strongMoves": "主力技",
+        "strongSequences": "強力な連係",
+        "okizeme": "起き攻め・セットプレイ"
+      },
+      "strongMoves": [],
+      "strongSequences": [],
+      "okizeme": []
+    },
+    {
+      "characterId": "dee-jay",
+      "characterName": "ディージェイ",
+      "categoryNames": {
+        "strongMoves": "主力技",
+        "strongSequences": "強力な連係",
+        "okizeme": "起き攻め・セットプレイ"
+      },
+      "strongMoves": [],
+      "strongSequences": [],
+      "okizeme": []
+    },
+    {
+      "characterId": "cammy",
+      "characterName": "キャミィ",
+      "categoryNames": {
+        "strongMoves": "主力技",
+        "strongSequences": "強力な連係",
+        "okizeme": "起き攻め・セットプレイ"
+      },
+      "strongMoves": [],
+      "strongSequences": [],
+      "okizeme": []
+    },
+    {
+      "characterId": "guile",
+      "characterName": "ガイル",
+      "categoryNames": {
+        "strongMoves": "主力技",
+        "strongSequences": "強力な連係",
+        "okizeme": "起き攻め・セットプレイ"
+      },
+      "strongMoves": [],
+      "strongSequences": [],
+      "okizeme": []
+    },
+    {
+      "characterId": "e-honda",
+      "characterName": "E.本田",
+      "categoryNames": {
+        "strongMoves": "主力技",
+        "strongSequences": "強力な連係",
+        "okizeme": "起き攻め・セットプレイ"
+      },
+      "strongMoves": [],
+      "strongSequences": [],
+      "okizeme": []
+    },
+    {
+      "characterId": "blanka",
+      "characterName": "ブランカ",
+      "categoryNames": {
+        "strongMoves": "主力技",
+        "strongSequences": "強力な連係",
+        "okizeme": "起き攻め・セットプレイ"
+      },
+      "strongMoves": [],
+      "strongSequences": [],
+      "okizeme": []
+    },
+    {
+      "characterId": "dhalsim",
+      "characterName": "ダルシム",
+      "categoryNames": {
+        "strongMoves": "主力技",
+        "strongSequences": "強力な連係",
+        "okizeme": "起き攻め・セットプレイ"
+      },
+      "strongMoves": [],
+      "strongSequences": [],
+      "okizeme": []
+    },
+    {
+      "characterId": "zangief",
+      "characterName": "ザンギエフ",
+      "categoryNames": {
+        "strongMoves": "主力技",
+        "strongSequences": "強力な連係",
+        "okizeme": "起き攻め・セットプレイ"
+      },
+      "strongMoves": [],
+      "strongSequences": [],
+      "okizeme": []
     }
   ],
   "combos": [
@@ -292,6 +676,198 @@
           "description": "ゲージを使った高火力コンボ"
         }
       ]
+    },
+    {
+      "characterId": "ken",
+      "characterName": "ケン",
+      "categoryNames": {
+        "basicCombos": "基本コンボ",
+        "situationalCombos": "状況別コンボ",
+        "meterCombos": "ゲージ使用コンボ"
+      },
+      "basicCombos": [],
+      "situationalCombos": [],
+      "meterCombos": []
+    },
+    {
+      "characterId": "luke",
+      "characterName": "ルーク",
+      "categoryNames": {
+        "basicCombos": "基本コンボ",
+        "situationalCombos": "状況別コンボ",
+        "meterCombos": "ゲージ使用コンボ"
+      },
+      "basicCombos": [],
+      "situationalCombos": [],
+      "meterCombos": []
+    },
+    {
+      "characterId": "jamie",
+      "characterName": "ジェイミー",
+      "categoryNames": {
+        "basicCombos": "基本コンボ",
+        "situationalCombos": "状況別コンボ",
+        "meterCombos": "ゲージ使用コンボ"
+      },
+      "basicCombos": [],
+      "situationalCombos": [],
+      "meterCombos": []
+    },
+    {
+      "characterId": "manon",
+      "characterName": "マノン",
+      "categoryNames": {
+        "basicCombos": "基本コンボ",
+        "situationalCombos": "状況別コンボ",
+        "meterCombos": "ゲージ使用コンボ"
+      },
+      "basicCombos": [],
+      "situationalCombos": [],
+      "meterCombos": []
+    },
+    {
+      "characterId": "kimberly",
+      "characterName": "キンバリー",
+      "categoryNames": {
+        "basicCombos": "基本コンボ",
+        "situationalCombos": "状況別コンボ",
+        "meterCombos": "ゲージ使用コンボ"
+      },
+      "basicCombos": [],
+      "situationalCombos": [],
+      "meterCombos": []
+    },
+    {
+      "characterId": "marisa",
+      "characterName": "マリーザ",
+      "categoryNames": {
+        "basicCombos": "基本コンボ",
+        "situationalCombos": "状況別コンボ",
+        "meterCombos": "ゲージ使用コンボ"
+      },
+      "basicCombos": [],
+      "situationalCombos": [],
+      "meterCombos": []
+    },
+    {
+      "characterId": "lily",
+      "characterName": "リリー",
+      "categoryNames": {
+        "basicCombos": "基本コンボ",
+        "situationalCombos": "状況別コンボ",
+        "meterCombos": "ゲージ使用コンボ"
+      },
+      "basicCombos": [],
+      "situationalCombos": [],
+      "meterCombos": []
+    },
+    {
+      "characterId": "jp",
+      "characterName": "JP",
+      "categoryNames": {
+        "basicCombos": "基本コンボ",
+        "situationalCombos": "状況別コンボ",
+        "meterCombos": "ゲージ使用コンボ"
+      },
+      "basicCombos": [],
+      "situationalCombos": [],
+      "meterCombos": []
+    },
+    {
+      "characterId": "juri",
+      "characterName": "ユリ",
+      "categoryNames": {
+        "basicCombos": "基本コンボ",
+        "situationalCombos": "状況別コンボ",
+        "meterCombos": "ゲージ使用コンボ"
+      },
+      "basicCombos": [],
+      "situationalCombos": [],
+      "meterCombos": []
+    },
+    {
+      "characterId": "dee-jay",
+      "characterName": "ディージェイ",
+      "categoryNames": {
+        "basicCombos": "基本コンボ",
+        "situationalCombos": "状況別コンボ",
+        "meterCombos": "ゲージ使用コンボ"
+      },
+      "basicCombos": [],
+      "situationalCombos": [],
+      "meterCombos": []
+    },
+    {
+      "characterId": "cammy",
+      "characterName": "キャミィ",
+      "categoryNames": {
+        "basicCombos": "基本コンボ",
+        "situationalCombos": "状況別コンボ",
+        "meterCombos": "ゲージ使用コンボ"
+      },
+      "basicCombos": [],
+      "situationalCombos": [],
+      "meterCombos": []
+    },
+    {
+      "characterId": "guile",
+      "characterName": "ガイル",
+      "categoryNames": {
+        "basicCombos": "基本コンボ",
+        "situationalCombos": "状況別コンボ",
+        "meterCombos": "ゲージ使用コンボ"
+      },
+      "basicCombos": [],
+      "situationalCombos": [],
+      "meterCombos": []
+    },
+    {
+      "characterId": "e-honda",
+      "characterName": "E.本田",
+      "categoryNames": {
+        "basicCombos": "基本コンボ",
+        "situationalCombos": "状況別コンボ",
+        "meterCombos": "ゲージ使用コンボ"
+      },
+      "basicCombos": [],
+      "situationalCombos": [],
+      "meterCombos": []
+    },
+    {
+      "characterId": "blanka",
+      "characterName": "ブランカ",
+      "categoryNames": {
+        "basicCombos": "基本コンボ",
+        "situationalCombos": "状況別コンボ",
+        "meterCombos": "ゲージ使用コンボ"
+      },
+      "basicCombos": [],
+      "situationalCombos": [],
+      "meterCombos": []
+    },
+    {
+      "characterId": "dhalsim",
+      "characterName": "ダルシム",
+      "categoryNames": {
+        "basicCombos": "基本コンボ",
+        "situationalCombos": "状況別コンボ",
+        "meterCombos": "ゲージ使用コンボ"
+      },
+      "basicCombos": [],
+      "situationalCombos": [],
+      "meterCombos": []
+    },
+    {
+      "characterId": "zangief",
+      "characterName": "ザンギエフ",
+      "categoryNames": {
+        "basicCombos": "基本コンボ",
+        "situationalCombos": "状況別コンボ",
+        "meterCombos": "ゲージ使用コンボ"
+      },
+      "basicCombos": [],
+      "situationalCombos": [],
+      "meterCombos": []
     }
   ],
   "settings": {

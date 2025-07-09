@@ -132,8 +132,23 @@ class Editor {
     }
 
     toggleEditMode() {
+        // 編集モード終了時の未保存変更確認
+        if (this.isEditMode && dataManager.hasUnsavedChanges) {
+            if (!confirm('未保存の変更があります。保存せずに編集モードを終了しますか？')) {
+                return;
+            }
+            dataManager.discardChanges();
+        }
+        
         this.isEditMode = !this.isEditMode;
         dataManager.setEditMode(this.isEditMode);
+        
+        // 編集モード開始時に一時データ初期化
+        if (this.isEditMode) {
+            dataManager.startEditMode();
+        } else {
+            dataManager.exitEditMode();
+        }
         
         const editToggle = document.getElementById('editToggle');
         if (editToggle) {
@@ -236,7 +251,11 @@ class Editor {
     }
 
     saveData() {
-        dataManager.saveToStorage();
+        if (dataManager.isEditMode) {
+            dataManager.commitChanges();
+        } else {
+            dataManager.saveToStorage();
+        }
         this.updateDataInfo();
         this.showMessage('データを保存しました', 'success');
     }
@@ -298,14 +317,15 @@ class Editor {
     updateDataInfo() {
         const lastSaved = dataManager.getLastSaved();
         const dataCount = dataManager.getDataCount();
+        const hasUnsavedChanges = dataManager.hasUnsavedChanges;
         
         const lastSavedElement = document.getElementById('lastSaved');
         const dataCountElement = document.getElementById('dataCount');
         
         if (lastSavedElement) {
-            lastSavedElement.textContent = lastSaved ? 
-                lastSaved.toLocaleString('ja-JP') : 
-                '未保存';
+            const timeText = lastSaved ? lastSaved.toLocaleString('ja-JP') : '未保存';
+            lastSavedElement.textContent = hasUnsavedChanges ? `${timeText} (未保存の変更あり)` : timeText;
+            lastSavedElement.style.color = hasUnsavedChanges ? '#ff6b6b' : '';
         }
         
         if (dataCountElement) {

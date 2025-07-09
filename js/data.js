@@ -11,6 +11,8 @@ class DataManager {
                 userSettings: { autoSave: true, exportFormat: 'json' }
             }
         };
+        this.tempData = null;
+        this.hasUnsavedChanges = false;
         this.currentCharacter = null;
         this.currentMode = 'strategies';
         this.isEditMode = false;
@@ -73,7 +75,8 @@ class DataManager {
     }
 
     getCharacterData(characterId, mode) {
-        const section = this.data[mode] || [];
+        const workingData = this.getWorkingData();
+        const section = workingData[mode] || [];
         return section.find(char => char.characterId === characterId);
     }
 
@@ -102,6 +105,11 @@ class DataManager {
     }
 
     updateCharacterData(characterId, mode, categoryKey, items) {
+        if (this.isEditMode) {
+            this.updateCharacterDataTemp(characterId, mode, categoryKey, items);
+            return;
+        }
+        
         const section = this.data[mode];
         let characterData = section.find(char => char.characterId === characterId);
         
@@ -116,10 +124,14 @@ class DataManager {
         }
         
         characterData[categoryKey] = items;
-        this.saveToStorage();
     }
 
     addCategory(characterId, mode, categoryKey, displayName) {
+        if (this.isEditMode) {
+            this.addCategoryTemp(characterId, mode, categoryKey, displayName);
+            return;
+        }
+        
         const section = this.data[mode];
         let characterData = section.find(char => char.characterId === characterId);
         
@@ -135,17 +147,20 @@ class DataManager {
         
         characterData.categoryNames[categoryKey] = displayName;
         characterData[categoryKey] = [];
-        this.saveToStorage();
     }
 
     removeCategory(characterId, mode, categoryKey) {
+        if (this.isEditMode) {
+            this.removeCategoryTemp(characterId, mode, categoryKey);
+            return;
+        }
+        
         const section = this.data[mode];
         const characterData = section.find(char => char.characterId === characterId);
         
         if (characterData) {
             delete characterData.categoryNames[categoryKey];
             delete characterData[categoryKey];
-            this.saveToStorage();
         }
     }
 
@@ -210,8 +225,9 @@ class DataManager {
 
     getDataCount() {
         let count = 0;
+        const workingData = this.getWorkingData();
         ['strategies', 'actions', 'combos'].forEach(mode => {
-            this.data[mode].forEach(characterData => {
+            workingData[mode].forEach(characterData => {
                 Object.keys(characterData.categoryNames || {}).forEach(categoryKey => {
                     count += (characterData[categoryKey] || []).length;
                 });
@@ -223,9 +239,10 @@ class DataManager {
     globalSearch(query) {
         const results = [];
         const modes = ['strategies', 'actions', 'combos'];
+        const workingData = this.getWorkingData();
         
         modes.forEach(mode => {
-            this.data[mode].forEach(characterData => {
+            workingData[mode].forEach(characterData => {
                 Object.keys(characterData.categoryNames || {}).forEach(categoryKey => {
                     const items = characterData[categoryKey] || [];
                     items.forEach((item, index) => {
@@ -253,6 +270,95 @@ class DataManager {
         return item.item_name.toLowerCase().includes(q) ||
                item.content.toLowerCase().includes(q) ||
                (item.description && item.description.toLowerCase().includes(q));
+    }
+
+    // 一時データ管理メソッド
+    startEditMode() {
+        this.tempData = JSON.parse(JSON.stringify(this.data));
+        this.hasUnsavedChanges = false;
+        this.isEditMode = true;
+    }
+
+    getWorkingData() {
+        return this.isEditMode && this.tempData ? this.tempData : this.data;
+    }
+
+    updateCharacterDataTemp(characterId, mode, categoryKey, items) {
+        if (!this.isEditMode) return;
+        
+        const workingData = this.getWorkingData();
+        const section = workingData[mode];
+        let characterData = section.find(char => char.characterId === characterId);
+        
+        if (!characterData) {
+            const character = this.getCharacters().find(c => c.id === characterId);
+            characterData = {
+                characterId: characterId,
+                characterName: character ? character.name : characterId,
+                categoryNames: {}
+            };
+            section.push(characterData);
+        }
+        
+        characterData[categoryKey] = items;
+        this.hasUnsavedChanges = true;
+    }
+
+    addCategoryTemp(characterId, mode, categoryKey, displayName) {
+        if (!this.isEditMode) return;
+        
+        const workingData = this.getWorkingData();
+        const section = workingData[mode];
+        let characterData = section.find(char => char.characterId === characterId);
+        
+        if (!characterData) {
+            const character = this.getCharacters().find(c => c.id === characterId);
+            characterData = {
+                characterId: characterId,
+                characterName: character ? character.name : characterId,
+                categoryNames: {}
+            };
+            section.push(characterData);
+        }
+        
+        characterData.categoryNames[categoryKey] = displayName;
+        characterData[categoryKey] = [];
+        this.hasUnsavedChanges = true;
+    }
+
+    removeCategoryTemp(characterId, mode, categoryKey) {
+        if (!this.isEditMode) return;
+        
+        const workingData = this.getWorkingData();
+        const section = workingData[mode];
+        const characterData = section.find(char => char.characterId === characterId);
+        
+        if (characterData) {
+            delete characterData.categoryNames[categoryKey];
+            delete characterData[categoryKey];
+            this.hasUnsavedChanges = true;
+        }
+    }
+
+    commitChanges() {
+        if (this.isEditMode && this.tempData) {
+            this.data = JSON.parse(JSON.stringify(this.tempData));
+            this.saveToStorage();
+            this.hasUnsavedChanges = false;
+        }
+    }
+
+    discardChanges() {
+        if (this.isEditMode) {
+            this.tempData = null;
+            this.hasUnsavedChanges = false;
+        }
+    }
+
+    exitEditMode() {
+        this.isEditMode = false;
+        this.tempData = null;
+        this.hasUnsavedChanges = false;
     }
 }
 

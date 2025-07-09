@@ -88,6 +88,15 @@ class App {
                 this.refreshApplication();
             }
         });
+        
+        // 未保存変更の確認
+        window.addEventListener('beforeunload', (e) => {
+            if (dataManager.hasUnsavedChanges) {
+                e.preventDefault();
+                e.returnValue = '未保存の変更があります。ページを離れますか？';
+                return '未保存の変更があります。ページを離れますか？';
+            }
+        });
     }
 
     handleSearch(query) {

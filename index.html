@@ -3,200 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ストリートファイター6 キャラクターデータベース</title>
+    <title>ストリートファイター6 データベース</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="app-container">
-        <header class="app-header">
-            <h1>ストリートファイター6 キャラクターデータベース</h1>
-            <div class="header-controls">
-                <input type="text" id="search-input" placeholder="キャラクター検索..." class="search-input">
+    <div class="container">
+        <header class="header">
+            <h1>ストリートファイター6 データベース</h1>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="検索...">
+                <button id="searchClear">クリア</button>
             </div>
         </header>
 
-        <main class="app-main">
-            <aside class="character-sidebar">
-                <div id="character-list" class="character-list">
-                    <div class="character-item" data-character-id="ryu">
-                        <img src="images/characters/ryu.png" alt="リュウ" class="character-icon" onerror="this.style.display='none'">
-                        <div class="character-name">リュウ</div>
-                    </div>
-                    <div class="character-item" data-character-id="chun-li">
-                        <img src="images/characters/chun-li.png" alt="春麗" class="character-icon" onerror="this.style.display='none'">
-                        <div class="character-name">春麗</div>
-                    </div>
-                    <div class="character-item" data-character-id="luke">
-                        <img src="images/characters/luke.png" alt="ルーク" class="character-icon" onerror="this.style.display='none'">
-                        <div class="character-name">ルーク</div>
-                    </div>
-                    <div class="character-item" data-character-id="jamie">
-                        <img src="images/characters/jamie.png" alt="ジェイミー" class="character-icon" onerror="this.style.display='none'">
-                        <div class="character-name">ジェイミー</div>
-                    </div>
-                    <div class="character-item" data-character-id="manon">
-                        <img src="images/characters/manon.png" alt="マノン" class="character-icon" onerror="this.style.display='none'">
-                        <div class="character-name">マノン</div>
-                    </div>
-                    <div class="character-item" data-character-id="kimberly">
-                        <img src="images/characters/kimberly.png" alt="キンバリー" class="character-icon" onerror="this.style.display='none'">
-                        <div class="character-name">キンバリー</div>
-                    </div>
-                    <div class="character-item" data-character-id="marisa">
-                        <img src="images/characters/marisa.png" alt="マリーザ" class="character-icon" onerror="this.style.display='none'">
-                        <div class="character-name">マリーザ</div>
-                    </div>
-                    <div class="character-item" data-character-id="jp">
-                        <img src="images/characters/jp.png" alt="JP" class="character-icon" onerror="this.style.display='none'">
-                        <div class="character-name">JP</div>
-                    </div>
-                    <div class="character-item" data-character-id="juri">
-                        <img src="images/characters/juri.png" alt="ジュリ" class="character-icon" onerror="this.style.display='none'">
-                        <div class="character-name">ジュリ</div>
-                    </div>
-                    <div class="character-item" data-character-id="dee-jay">
-                        <img src="images/characters/dee-jay.png" alt="ディージェイ" class="character-icon" onerror="this.style.display='none'">
-                        <div class="character-name">ディージェイ</div>
-                    </div>
-                    <div class="character-item" data-character-id="cammy">
-                        <img src="images/characters/cammy.png" alt="キャミィ" class="character-icon" onerror="this.style.display='none'">
-                        <div class="character-name">キャミィ</div>
-                    </div>
-                    <div class="character-item" data-character-id="lily">
-                        <img src="images/characters/lily.png" alt="リリー" class="character-icon" onerror="this.style.display='none'">
-                        <div class="character-name">リリー</div>
-                    </div>
-                    <div class="character-item" data-character-id="zangief">
-                        <img src="images/characters/zangief.png" alt="ザンギエフ" class="character-icon" onerror="this.style.display='none'">
-                        <div class="character-name">ザンギエフ</div>
-                    </div>
-                    <div class="character-item" data-character-id="ken">
-                        <img src="images/characters/ken.png" alt="ケン" class="character-icon" onerror="this.style.display='none'">
-                        <div class="character-name">ケン</div>
-                    </div>
-                    <div class="character-item" data-character-id="blanka">
-                        <img src="images/characters/blanka.png" alt="ブランカ" class="character-icon" onerror="this.style.display='none'">
-                        <div class="character-name">ブランカ</div>
-                    </div>
-                    <div class="character-item" data-character-id="dhalsim">
-                        <img src="images/characters/dhalsim.png" alt="ダルシム" class="character-icon" onerror="this.style.display='none'">
-                        <div class="character-name">ダルシム</div>
-                    </div>
-                    <div class="character-item" data-character-id="honda">
-                        <img src="images/characters/honda.png" alt="本田" class="character-icon" onerror="this.style.display='none'">
-                        <div class="character-name">本田</div>
-                    </div>
-                    <div class="character-item" data-character-id="guile">
-                        <img src="images/characters/guile.png" alt="ガイル" class="character-icon" onerror="this.style.display='none'">
-                        <div class="character-name">ガイル</div>
+        <div class="main-content">
+            <!-- データ読み込み画面 -->
+            <div id="dataLoader" class="data-loader">
+                <div class="loader-content">
+                    <h2>データの読み込み</h2>
+                    <div class="loader-options">
+                        <button id="loadSampleData" class="btn btn-primary">サンプルデータを使用</button>
+                        <div class="file-upload">
+                            <input type="file" id="fileInput" accept=".json" style="display: none;">
+                            <button id="selectFile" class="btn btn-secondary">ファイルを選択</button>
+                        </div>
                     </div>
                 </div>
-            </aside>
+            </div>
 
-            <section class="content-area">
-                <div id="character-detail-screen" class="character-detail-screen" style="display: block;">
-                    <div class="character-header">
-                        <h2 id="character-name"></h2>
-                        <div class="mode-tabs">
-                            <button id="counter-tab" class="tab-btn active" data-mode="counter">対策</button>
-                            <button id="strong-tab" class="tab-btn" data-mode="strong">強い行動</button>
-                            <button id="combo-tab" class="tab-btn" data-mode="combo">コンボ</button>
-                            <button id="data-tab" class="tab-btn" data-mode="data">データ管理</button>
-                            <button id="edit-btn" class="edit-btn">編集モード</button>
+            <!-- メインアプリケーション -->
+            <div id="mainApp" class="main-app" style="display: none;">
+                <!-- タブナビゲーション -->
+                <nav class="tab-nav">
+                    <button class="tab-button active" data-tab="strategies">対策</button>
+                    <button class="tab-button" data-tab="actions">強い行動</button>
+                    <button class="tab-button" data-tab="combos">コンボ</button>
+                    <button class="tab-button" data-tab="data-management">データ管理</button>
+                </nav>
+
+                <!-- キャラクター選択 -->
+                <div class="character-selection">
+                    <h2>キャラクター選択</h2>
+                    <div id="characterGrid" class="character-grid">
+                        <!-- キャラクターはJavaScriptで動的に生成 -->
+                    </div>
+                </div>
+
+                <!-- データ表示エリア -->
+                <div id="dataDisplay" class="data-display">
+                    <div class="character-info">
+                        <h2 id="selectedCharacterName">キャラクターを選択してください</h2>
+                        <div class="controls">
+                            <button id="editToggle" class="btn btn-secondary">編集モード</button>
+                            <button id="saveData" class="btn btn-primary">保存</button>
                         </div>
                     </div>
 
-                    <div class="character-content">
-                        <div id="counter-content" class="content-section">
-                            <!-- JSONから動的生成 -->
+                    <!-- タブコンテンツ -->
+                    <div class="tab-content">
+                        <div id="strategies" class="tab-panel active">
+                            <div id="strategiesContent" class="content-area">
+                                <!-- 対策データがここに表示される -->
+                            </div>
                         </div>
 
-                        <div id="strong-content" class="content-section" style="display: none;">
-                            <!-- JSONから動的生成 -->
+                        <div id="actions" class="tab-panel">
+                            <div id="actionsContent" class="content-area">
+                                <!-- 強い行動データがここに表示される -->
+                            </div>
                         </div>
 
-                        <div id="combo-content" class="content-section" style="display: none;">
-                            <!-- JSONから動的生成 -->
+                        <div id="combos" class="tab-panel">
+                            <div id="combosContent" class="content-area">
+                                <!-- コンボデータがここに表示される -->
+                            </div>
                         </div>
 
-                        <div id="data-content" class="content-section" style="display: none;">
+                        <div id="data-management" class="tab-panel">
                             <div class="data-management-panel">
-                                <div class="data-actions">
-                                    <div class="action-category">
-                                        <h3>データ保存・読み込み</h3>
-                                        <div class="action-buttons">
-                                            <button id="save-data-btn" class="action-btn save-btn">
-                                                <span class="btn-icon">💾</span>
-                                                <div class="btn-content">
-                                                    <div class="btn-title">データを保存</div>
-                                                    <div class="btn-description">現在のデータをブラウザに保存 (Ctrl+S)</div>
-                                                </div>
-                                            </button>
-                                            <button id="import-data-btn" class="action-btn import-btn">
-                                                <span class="btn-icon">📁</span>
-                                                <div class="btn-content">
-                                                    <div class="btn-title">ファイルからインポート</div>
-                                                    <div class="btn-description">JSONファイルからデータを読み込み (Ctrl+O)</div>
-                                                </div>
-                                            </button>
-                                            <button id="export-data-btn" class="action-btn export-btn">
-                                                <span class="btn-icon">📤</span>
-                                                <div class="btn-content">
-                                                    <div class="btn-title">データをエクスポート</div>
-                                                    <div class="btn-description">現在のデータをJSONファイルとしてダウンロード</div>
-                                                </div>
-                                            </button>
-                                        </div>
+                                <h3>データ管理</h3>
+                                <div class="management-controls">
+                                    <button id="exportData" class="btn btn-primary">データエクスポート</button>
+                                    <div class="file-upload">
+                                        <input type="file" id="importInput" accept=".json" style="display: none;">
+                                        <button id="importData" class="btn btn-secondary">データインポート</button>
                                     </div>
-
-                                    <div class="action-category">
-                                        <h3>データ管理</h3>
-                                        <div class="action-buttons">
-                                            <button id="clear-data-btn" class="action-btn danger-btn">
-                                                <span class="btn-icon">🗑️</span>
-                                                <div class="btn-content">
-                                                    <div class="btn-title">保存データを削除</div>
-                                                    <div class="btn-description">ブラウザに保存されたデータを削除</div>
-                                                </div>
-                                            </button>
-                                        </div>
-                                    </div>
-
+                                    <button id="clearData" class="btn btn-danger">データクリア</button>
                                 </div>
-
                                 <div class="data-info">
-                                    <h3>データ情報</h3>
-                                    <div id="data-info-content" class="info-content">
-                                        <div class="info-item">
-                                            <span class="info-label">保存状態:</span>
-                                            <span id="save-status" class="info-value">確認中...</span>
-                                        </div>
-                                        <div class="info-item">
-                                            <span class="info-label">最終保存:</span>
-                                            <span id="last-saved" class="info-value">未保存</span>
-                                        </div>
-                                        <div class="info-item">
-                                            <span class="info-label">データサイズ:</span>
-                                            <span id="data-size" class="info-value">計算中...</span>
-                                        </div>
-                                        <div class="info-item">
-                                            <span class="info-label">キャラクター数:</span>
-                                            <span id="character-count" class="info-value">18</span>
-                                        </div>
-                                    </div>
+                                    <p>最終更新: <span id="lastSaved">-</span></p>
+                                    <p>データ数: <span id="dataCount">-</span></p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-        </main>
+            </div>
+        </div>
     </div>
 
+    <!-- 編集モーダル -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">アイテム編集</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <div class="form-group">
+                        <label for="itemName">アイテム名:</label>
+                        <input type="text" id="itemName" name="itemName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemContent">内容:</label>
+                        <textarea id="itemContent" name="itemContent" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemDescription">説明:</label>
+                        <textarea id="itemDescription" name="itemDescription"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                        <button type="button" class="btn btn-secondary" id="cancelEdit">キャンセル</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript ファイル -->
     <script src="js/data.js"></script>
+    <script src="js/storage.js"></script>
     <script src="js/data-loader.js"></script>
     <script src="js/character.js"></script>
-    <script src="js/storage.js"></script>
     <script src="js/editor.js"></script>
     <script src="js/app.js"></script>
 </body>

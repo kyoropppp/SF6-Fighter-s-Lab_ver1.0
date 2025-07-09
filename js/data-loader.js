@@ -1,95 +1,155 @@
-// Data Loader for SF6 Database
-// JSONファイルの読み込みとデータ管理を担当
-
 class DataLoader {
     constructor() {
-        this.cache = new Map();
+        this.initializeEventListeners();
     }
 
-    // すべてのデータを非同期で読み込み
-    async loadAllData() {
-        // データが完全に空の場合のみlocalStorageをチェック
-        if (SF6_DATA.characters === undefined && SF6_DATA.counterStrategies === undefined && 
-            SF6_DATA.strongActions === undefined && SF6_DATA.comboRecipes === undefined && SF6_DATA.settings === undefined) {
+    initializeEventListeners() {
+        document.addEventListener('DOMContentLoaded', () => {
+            this.setupLoadingScreen();
+        });
+    }
+
+    setupLoadingScreen() {
+        const loadSampleDataBtn = document.getElementById('loadSampleData');
+        const selectFileBtn = document.getElementById('selectFile');
+        const fileInput = document.getElementById('fileInput');
+        const dataLoader = document.getElementById('dataLoader');
+        const mainApp = document.getElementById('mainApp');
+
+        if (storageManager.hasStoredData()) {
+            this.loadStoredData();
+            return;
+        }
+
+        loadSampleDataBtn.addEventListener('click', () => {
+            this.loadSampleData();
+        });
+
+        selectFileBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                this.loadFromFile(file);
+            }
+        });
+    }
+
+    async loadSampleData() {
+        try {
+            this.showLoadingMessage('サンプルデータを読み込み中...');
             
-            // localStorageからデータを読み込み
-            const savedDataLoaded = dataStorage.loadData();
+            const response = await fetch('data/data.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             
-            if (!savedDataLoaded) {
-                // データ読み込みUIを表示
-                dataFileLoader.showDataLoadUI();
-                return false;
+            const data = await response.json();
+            
+            if (dataManager.loadData(data)) {
+                dataManager.saveToStorage();
+                this.showMainApp();
+                this.showMessage('サンプルデータを読み込みました', 'success');
+            } else {
+                throw new Error('データの読み込みに失敗しました');
+            }
+        } catch (error) {
+            this.showMessage('サンプルデータの読み込みに失敗しました: ' + error.message, 'error');
+        }
+    }
+
+    async loadFromFile(file) {
+        try {
+            this.showLoadingMessage('ファイルを読み込み中...');
+            
+            const data = await storageManager.loadFromFile(file);
+            const normalizedData = storageManager.normalizeImportData(data);
+            
+            storageManager.validateDataStructure(normalizedData);
+            
+            if (dataManager.loadData(normalizedData)) {
+                dataManager.saveToStorage();
+                this.showMainApp();
+                this.showMessage('ファイルを読み込みました', 'success');
+            } else {
+                throw new Error('データの読み込みに失敗しました');
+            }
+        } catch (error) {
+            this.showMessage('ファイルの読み込みに失敗しました: ' + error.message, 'error');
+        }
+    }
+
+    loadStoredData() {
+        try {
+            if (dataManager.loadFromStorage()) {
+                this.showMainApp();
+                this.showMessage('保存されたデータを読み込みました', 'success');
+            } else {
+                throw new Error('保存されたデータの読み込みに失敗しました');
+            }
+        } catch (error) {
+            this.showMessage('保存されたデータの読み込みに失敗しました: ' + error.message, 'error');
+            this.showLoadingScreen();
+        }
+    }
+
+    showMainApp() {
+        const dataLoader = document.getElementById('dataLoader');
+        const mainApp = document.getElementById('mainApp');
+        
+        if (dataLoader) dataLoader.style.display = 'none';
+        if (mainApp) mainApp.style.display = 'block';
+        
+        if (window.app) {
+            window.app.initialize();
+        }
+    }
+
+    showLoadingScreen() {
+        const dataLoader = document.getElementById('dataLoader');
+        const mainApp = document.getElementById('mainApp');
+        
+        if (dataLoader) dataLoader.style.display = 'block';
+        if (mainApp) mainApp.style.display = 'none';
+    }
+
+    showLoadingMessage(message) {
+        const loaderContent = document.querySelector('.loader-content');
+        if (loaderContent) {
+            const messageElement = loaderContent.querySelector('.loading-message');
+            if (messageElement) {
+                messageElement.textContent = message;
+            } else {
+                const newMessage = document.createElement('div');
+                newMessage.className = 'loading-message';
+                newMessage.textContent = message;
+                loaderContent.appendChild(newMessage);
             }
         }
-        
-        return true;
     }
 
-
-    // 汎用データ取得ヘルパー
-    _getDataByCharacterId(dataSource, arrayKey, characterId) {
-        if (!dataSource) return null;
-        return dataSource[arrayKey].find(item => item.characterId === characterId);
-    }
-
-    // キャラクターデータの取得
-    getCharacterData(characterId = null) {
-        if (!SF6_DATA.characters) return null;
+    showMessage(message, type = 'info') {
+        const messageElement = document.createElement('div');
+        messageElement.className = `message message-${type}`;
+        messageElement.textContent = message;
         
-        if (characterId) {
-            return SF6_DATA.characters.characters.find(char => char.id === characterId);
+        const header = document.querySelector('.header');
+        if (header) {
+            header.appendChild(messageElement);
+            
+            setTimeout(() => {
+                messageElement.remove();
+            }, 5000);
         }
-        return SF6_DATA.characters.characters;
     }
 
-    // 対策データの取得
-    getCounterStrategies(characterId) {
-        return this._getDataByCharacterId(SF6_DATA.counterStrategies, 'strategies', characterId);
-    }
-
-    // 強い行動データの取得
-    getStrongActions(characterId) {
-        return this._getDataByCharacterId(SF6_DATA.strongActions, 'actions', characterId);
-    }
-
-    // コンボレシピデータの取得
-    getComboRecipes(characterId) {
-        return this._getDataByCharacterId(SF6_DATA.comboRecipes, 'combos', characterId);
-    }
-
-    // 設定データの取得
-    getSettings() {
-        return SF6_DATA.settings;
-    }
-
-    // キャラクター検索
-    searchCharacters(searchTerm) {
-        if (!SF6_DATA.characters || !searchTerm) return SF6_DATA.characters?.characters || [];
-        
-        const term = searchTerm.toLowerCase();
-        return SF6_DATA.characters.characters.filter(char => 
-            char.name.toLowerCase().includes(term) || 
-            char.nameEn.toLowerCase().includes(term) ||
-            char.id.toLowerCase().includes(term)
-        );
-    }
-
-    // データが読み込まれているかチェック
-    isDataLoaded() {
-        return !!(SF6_DATA.characters && SF6_DATA.counterStrategies && SF6_DATA.strongActions && SF6_DATA.comboRecipes && SF6_DATA.settings);
-    }
-
-    // キャッシュをクリア
-    clearCache() {
-        this.cache.clear();
-    }
-
-    // データの再読み込み
-    async reloadData() {
-        this.clearCache();
-        return await this.loadAllData();
+    reloadApplication() {
+        dataManager.clearStorage();
+        this.showLoadingScreen();
+        this.setupLoadingScreen();
     }
 }
 
-// グローバルなDataLoaderインスタンスを作成
 const dataLoader = new DataLoader();

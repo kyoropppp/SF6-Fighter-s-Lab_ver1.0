@@ -1,328 +1,242 @@
-// Main Application Controller for SF6 Database
-// アプリケーション全体の制御とメイン処理を担当
-
-class SF6DatabaseApp {
+class App {
     constructor() {
-        this.isInitialized = false;
-        this.currentMode = 'counter';
-        this.searchTimeout = null;
+        this.initialized = false;
+        this.setupGlobalReferences();
+        this.initializeEventListeners();
     }
 
-    // アプリケーションの初期化
-    async init() {
-        if (this.isInitialized) return;
+    setupGlobalReferences() {
+        window.app = this;
+        window.dataManager = dataManager;
+        window.storageManager = storageManager;
+        window.dataLoader = dataLoader;
+        window.characterRenderer = characterRenderer;
+        window.editor = editor;
+    }
 
-        console.log('Initializing SF6 Database...');
+    initializeEventListeners() {
+        document.addEventListener('DOMContentLoaded', () => {
+            this.setupSearch();
+            this.setupGlobalKeyboardShortcuts();
+        });
+    }
+
+    initialize() {
+        if (this.initialized) return;
         
-        // ローディング状態を表示
-        this.showLoading();
+        this.setupUI();
+        this.updateDataInfo();
+        this.initialized = true;
+    }
 
-        try {
-            // データを読み込み
-            const success = await dataLoader.loadAllData();
-            
-            if (!success) {
-                console.log('Data loading failed or requires user action');
-                this.hideLoading();
-                return; // データ読み込みUIが表示されている場合は処理を中断
-            }
-
-            // UI要素を初期化
-            this.initializeUI();
-            
-            // イベントリスナーを設定
-            this.setupEventListeners();
-            
-            // 初期画面を表示（デフォルトでリュウを表示）
-            this.showInitialScreen();
-            
-            // Proxyによる自動保存があるため、手動の自動保存は不要
-            
-            this.isInitialized = true;
-            console.log('SF6 Database initialized successfully');
-            
-            // localStorageからデータが読み込まれた場合の通知
-            const savedInfo = dataStorage.getSavedDataInfo();
-            if (savedInfo) {
-                dataStorage.showSaveNotification('保存されたデータを読み込みました');
-            }
-            
-        } catch (error) {
-            console.error('Initialization failed:', error);
-            this.showError('アプリケーションの初期化に失敗しました');
-        } finally {
-            this.hideLoading();
+    setupUI() {
+        this.setupSearch();
+        this.setupDataManagement();
+        
+        if (window.characterRenderer) {
+            window.characterRenderer.refreshDisplay();
+        }
+        
+        if (window.editor) {
+            window.editor.updateDataInfo();
         }
     }
 
-    // UI要素の初期化
-    initializeUI() {
-        // 設定を適用
-        this.applySettings();
+    setupSearch() {
+        const searchInput = document.getElementById('searchInput');
+        const searchClear = document.getElementById('searchClear');
         
-        // 静的なキャラクターアイテムにクリックイベントを設定
-        this.setupStaticCharacterEvents();
-    }
-
-    // イベントリスナーの設定
-    setupEventListeners() {
-        // タブの切り替え
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const mode = e.target.dataset.mode;
-                if (mode) {
-                    characterDisplay.switchMode(mode);
-                }
-            });
-        });
-
-        // 検索機能
-        const searchInput = document.getElementById('search-input');
         if (searchInput) {
             searchInput.addEventListener('input', (e) => {
-                // デバウンス処理
-                clearTimeout(this.searchTimeout);
-                this.searchTimeout = setTimeout(() => {
-                    this.handleSearch(e.target.value);
-                }, 300);
+                this.handleSearch(e.target.value);
             });
-        }
-
-
-        // 編集ボタン
-        const editBtn = document.getElementById('edit-btn');
-        if (editBtn) {
-            editBtn.addEventListener('click', () => {
-                dataEditor.toggleEditMode();
-            });
-        }
-
-        // キーボードショートカット
-        document.addEventListener('keydown', (e) => {
-            this.handleKeyboardShortcuts(e);
-        });
-
-        // ウィンドウリサイズ
-        window.addEventListener('resize', () => {
-            this.handleResize();
-        });
-    }
-
-    // キャラクターリストの表示
-    renderCharacterList() {
-        const characters = dataLoader.getCharacterData();
-        if (!characters) {
-            console.error('No characters data available');
-            return;
-        }
-
-        characterDisplay.updateCharacterList(characters);
-    }
-
-    // 検索処理
-    handleSearch(searchTerm) {
-        if (!searchTerm.trim()) {
-            // 空の検索の場合、全キャラクターを表示
-            this.showAllCharacters();
-            return;
-        }
-
-        this.filterStaticCharacters(searchTerm);
-    }
-
-    // 全キャラクターを表示
-    showAllCharacters() {
-        document.querySelectorAll('.character-item').forEach(item => {
-            item.style.display = 'flex';
-        });
-    }
-
-    // 静的キャラクターのフィルタリング
-    filterStaticCharacters(searchTerm) {
-        const term = searchTerm.toLowerCase();
-        document.querySelectorAll('.character-item').forEach(item => {
-            const characterName = item.querySelector('.character-name').textContent.toLowerCase();
-            const characterId = item.dataset.characterId.toLowerCase();
             
-            if (characterName.includes(term) || characterId.includes(term)) {
-                item.style.display = 'flex';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    }
-
-    // キーボードショートカット
-    handleKeyboardShortcuts(e) {
-        // Ctrl/Cmd + S: データを保存
-        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-            e.preventDefault();
-            dataStorage.saveData();
-        }
-
-        // Ctrl/Cmd + F: 検索フィールドにフォーカス
-        if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
-            e.preventDefault();
-            const searchInput = document.getElementById('search-input');
-            if (searchInput) {
-                searchInput.focus();
-            }
-        }
-
-        // Ctrl/Cmd + O: ファイルからインポート
-        if ((e.ctrlKey || e.metaKey) && e.key === 'o') {
-            e.preventDefault();
-            dataStorage.openImportDialog();
-        }
-
-        // Escape: 検索をクリア
-        if (e.key === 'Escape') {
-            const searchInput = document.getElementById('search-input');
-            if (searchInput && searchInput.value) {
-                searchInput.value = '';
-                this.showAllCharacters();
-            }
-        }
-
-        // 数字キー: タブ切り替え
-        if (e.key >= '1' && e.key <= '4') {
-            e.preventDefault();
-            const modes = ['counter', 'strong', 'combo', 'data'];
-            const mode = modes[parseInt(e.key) - 1];
-            if (mode && characterDisplay.currentCharacter) {
-                characterDisplay.switchMode(mode);
-            }
-        }
-    }
-
-    // 設定の適用
-    applySettings() {
-        const settings = dataLoader.getSettings();
-        if (!settings) return;
-
-        // テーマの適用
-        if (settings.display?.theme) {
-            document.documentElement.setAttribute('data-theme', settings.display.theme);
-        }
-
-        // フォントサイズの適用
-        if (settings.display?.fontSize) {
-            document.documentElement.setAttribute('data-font-size', settings.display.fontSize);
-        }
-
-        // デフォルトモードの設定
-        if (settings.display?.defaultMode) {
-            this.currentMode = settings.display.defaultMode;
-        }
-    }
-
-    // 初期画面の表示
-    showInitialScreen() {
-        // デフォルトでリュウを表示
-        characterDisplay.showCharacterDetail('ryu');
-    }
-
-    // ローディング状態の表示
-    showLoading() {
-        const loadingHTML = `
-            <div class="loading-overlay">
-                <div class="loading">
-                    <div class="loading-spinner"></div>
-                    <div class="loading-text">データを読み込み中...</div>
-                </div>
-            </div>
-        `;
-        
-        document.body.insertAdjacentHTML('beforeend', loadingHTML);
-    }
-
-    // ローディング状態の非表示
-    hideLoading() {
-        const loadingOverlay = document.querySelector('.loading-overlay');
-        if (loadingOverlay) {
-            loadingOverlay.remove();
-        }
-    }
-
-    // エラー表示
-    showError(message) {
-        const errorHTML = `
-            <div class="error-overlay">
-                <div class="error-message">
-                    <h3>エラー</h3>
-                    <p>${message}</p>
-                    <button onclick="location.reload()">再読み込み</button>
-                </div>
-            </div>
-        `;
-        
-        document.body.insertAdjacentHTML('beforeend', errorHTML);
-    }
-
-
-    // ウィンドウリサイズ処理
-    handleResize() {
-        // 必要に応じてレイアウトを調整
-        // 現在は特に処理なし
-    }
-
-    // 静的なキャラクターアイテムのイベント設定
-    setupStaticCharacterEvents() {
-        document.querySelectorAll('.character-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                const characterId = item.dataset.characterId;
-                if (characterId) {
-                    characterDisplay.showCharacterDetail(characterId);
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.handleSearch(e.target.value);
                 }
             });
+        }
+        
+        if (searchClear) {
+            searchClear.addEventListener('click', () => {
+                if (searchInput) {
+                    searchInput.value = '';
+                    this.handleSearch('');
+                }
+            });
+        }
+    }
+
+    setupDataManagement() {
+        const dataManagementPanel = document.querySelector('.data-management-panel');
+        if (dataManagementPanel) {
+            this.updateDataInfo();
+        }
+    }
+
+    setupGlobalKeyboardShortcuts() {
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'h') {
+                e.preventDefault();
+                this.showHelp();
+            }
+            
+            if (e.ctrlKey && e.key === 'r') {
+                e.preventDefault();
+                this.refreshApplication();
+            }
         });
     }
 
-    // データの再読み込み
-    async reloadData() {
-        this.showLoading();
-        
-        try {
-            const success = await dataLoader.reloadData();
-            if (success) {
-                this.renderCharacterList();
-                // 現在のキャラクターが表示されている場合は再表示
-                if (characterDisplay.currentCharacter) {
-                    characterDisplay.showCharacterDetail(characterDisplay.currentCharacter.id);
-                }
-            } else {
-                throw new Error('Data reload failed');
-            }
-        } catch (error) {
-            console.error('Data reload failed:', error);
-            this.showError('データの再読み込みに失敗しました');
-        } finally {
-            this.hideLoading();
+    handleSearch(query) {
+        if (window.characterRenderer && dataManager.getCurrentCharacter()) {
+            window.characterRenderer.searchItems(query);
         }
+    }
+
+    updateDataInfo() {
+        const lastSaved = dataManager.getLastSaved();
+        const dataCount = dataManager.getDataCount();
+        
+        const lastSavedElement = document.getElementById('lastSaved');
+        const dataCountElement = document.getElementById('dataCount');
+        
+        if (lastSavedElement) {
+            lastSavedElement.textContent = lastSaved ? 
+                lastSaved.toLocaleString('ja-JP') : 
+                '未保存';
+        }
+        
+        if (dataCountElement) {
+            dataCountElement.textContent = dataCount + '件';
+        }
+    }
+
+    showHelp() {
+        const helpContent = `
+        <h3>キーボードショートカット</h3>
+        <ul>
+            <li><strong>Ctrl+S</strong>: データ保存</li>
+            <li><strong>Ctrl+F</strong>: 検索フォーカス</li>
+            <li><strong>Ctrl+O</strong>: ファイルインポート</li>
+            <li><strong>Ctrl+H</strong>: ヘルプ表示</li>
+            <li><strong>Ctrl+R</strong>: アプリケーション再読み込み</li>
+            <li><strong>ESC</strong>: 検索クリア・モーダル閉じる</li>
+            <li><strong>1-4</strong>: タブ切り替え</li>
+        </ul>
+        
+        <h3>使用方法</h3>
+        <ol>
+            <li>キャラクターを選択</li>
+            <li>タブで対策・強い行動・コンボを切り替え</li>
+            <li>編集モードで内容を編集</li>
+            <li>データ管理タブでインポート・エクスポート</li>
+        </ol>
+        `;
+        
+        this.showModal('ヘルプ', helpContent);
+    }
+
+    showModal(title, content) {
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>${title}</h3>
+                    <button class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    ${content}
+                </div>
+            </div>
+        `;
+        
+        const closeBtn = modal.querySelector('.close-btn');
+        closeBtn.addEventListener('click', () => {
+            modal.remove();
+        });
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
+        
+        document.body.appendChild(modal);
+    }
+
+    refreshApplication() {
+        if (confirm('アプリケーションを再読み込みしますか？未保存のデータは失われます。')) {
+            location.reload();
+        }
+    }
+
+    showMessage(message, type = 'info') {
+        const messageElement = document.createElement('div');
+        messageElement.className = `message message-${type}`;
+        messageElement.textContent = message;
+        
+        const header = document.querySelector('.header');
+        if (header) {
+            header.appendChild(messageElement);
+            
+            setTimeout(() => {
+                if (messageElement.parentNode) {
+                    messageElement.remove();
+                }
+            }, 3000);
+        }
+    }
+
+    handleError(error, context = '') {
+        console.error(`${context}:`, error);
+        this.showMessage(`エラーが発生しました: ${error.message}`, 'error');
+    }
+
+    validateCurrentState() {
+        const hasCharacters = dataManager.getCharacters().length > 0;
+        const hasData = dataManager.getDataCount() > 0;
+        
+        return {
+            hasCharacters,
+            hasData,
+            isValid: hasCharacters
+        };
+    }
+
+    getApplicationInfo() {
+        return {
+            version: '2.0.0',
+            name: 'ストリートファイター6 データベース',
+            lastSaved: dataManager.getLastSaved(),
+            dataCount: dataManager.getDataCount(),
+            characters: dataManager.getCharacters().length,
+            currentCharacter: dataManager.getCurrentCharacter(),
+            currentMode: dataManager.getCurrentMode(),
+            isEditMode: dataManager.getEditMode()
+        };
     }
 }
 
-// アプリケーションインスタンスを作成
-const app = new SF6DatabaseApp();
+const app = new App();
 
-// DOMの読み込み完了後にアプリを初期化
-document.addEventListener('DOMContentLoaded', () => {
-    app.init();
-});
-
-// エラーハンドリング
-window.addEventListener('error', (e) => {
-    console.error('Global error:', e.error);
-});
-
-window.addEventListener('unhandledrejection', (e) => {
-    console.error('Unhandled promise rejection:', e.reason);
-});
-
-// 開発用のグローバル関数
-window.sf6db = {
-    app: app,
-    dataLoader: dataLoader,
-    characterDisplay: characterDisplay,
-    reloadData: () => app.reloadData()
+window.onerror = function(message, source, lineno, colno, error) {
+    console.error('Global error:', { message, source, lineno, colno, error });
+    if (window.app) {
+        window.app.handleError(error || new Error(message), 'Global');
+    }
 };
+
+window.addEventListener('unhandledrejection', function(event) {
+    console.error('Unhandled promise rejection:', event.reason);
+    if (window.app) {
+        window.app.handleError(event.reason, 'Promise');
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('SF6 Database Application loaded');
+});

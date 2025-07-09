@@ -894,6 +894,27 @@ body {
     color: #856404;
 }
 
+/* ドラッグ&ドロップ用スタイル */
+.category-section[draggable="true"] {
+    cursor: move;
+}
+
+.category-section.dragging {
+    opacity: 0.5;
+    transform: rotate(2deg);
+    z-index: 1000;
+}
+
+.category-section.drop-target {
+    border: 2px dashed #3498db;
+    background-color: #e8f4f8;
+}
+
+.category-section.drag-over {
+    border-color: #2980b9;
+    background-color: #d4edda;
+}
+
 /* 検索結果が空の場合のスタイル */
 .search-results p {
     text-align: center;

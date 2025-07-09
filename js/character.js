@@ -152,6 +152,12 @@ class CharacterRenderer {
             const categorySection = document.createElement('div');
             categorySection.className = 'category-section';
             
+            // 編集モード時にドラッグ&ドロップを有効化
+            if (isEditMode) {
+                categorySection.draggable = true;
+                categorySection.setAttribute('data-category-key', categoryKey);
+            }
+            
             const categoryHeader = document.createElement('div');
             categoryHeader.className = 'category-header';
             categoryHeader.innerHTML = `
@@ -184,6 +190,11 @@ class CharacterRenderer {
             addCategoryButton.textContent = '新しいカテゴリを追加';
             addCategoryButton.onclick = () => this.addCategory();
             container.appendChild(addCategoryButton);
+            
+            // ドラッグ&ドロップ機能のセットアップ
+            setTimeout(() => {
+                this.setupDragAndDrop();
+            }, 0);
         }
     }
 
@@ -348,6 +359,91 @@ class CharacterRenderer {
                 }
             });
         });
+    }
+
+    setupDragAndDrop() {
+        // ドラッグ&ドロップ機能のセットアップ
+        // renderCategoryData内で各カテゴリセクションに対して呼び出される
+        const categorySections = document.querySelectorAll('.category-section[draggable="true"]');
+        
+        categorySections.forEach((section, index) => {
+            section.addEventListener('dragstart', (e) => {
+                this.handleDragStart(e, index);
+            });
+            
+            section.addEventListener('dragover', (e) => {
+                this.handleDragOver(e);
+            });
+            
+            section.addEventListener('drop', (e) => {
+                this.handleDrop(e, index);
+            });
+            
+            section.addEventListener('dragleave', (e) => {
+                this.handleDragLeave(e);
+            });
+            
+            section.addEventListener('dragend', (e) => {
+                this.handleDragEnd(e);
+            });
+        });
+    }
+
+    handleDragStart(e, categoryIndex) {
+        this.draggedCategoryIndex = categoryIndex;
+        e.target.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', e.target.outerHTML);
+    }
+
+    handleDragOver(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        
+        const targetSection = e.currentTarget;
+        if (!targetSection.classList.contains('dragging')) {
+            targetSection.classList.add('drag-over');
+        }
+    }
+
+    handleDragLeave(e) {
+        e.currentTarget.classList.remove('drag-over');
+    }
+
+    handleDrop(e, targetIndex) {
+        e.preventDefault();
+        
+        const targetSection = e.currentTarget;
+        targetSection.classList.remove('drag-over');
+        
+        if (this.draggedCategoryIndex !== undefined && this.draggedCategoryIndex !== targetIndex) {
+            // カテゴリの順序を変更
+            dataManager.reorderCategories(
+                this.currentCharacter,
+                this.currentMode,
+                this.draggedCategoryIndex,
+                targetIndex
+            );
+            
+            // 画面を再描画
+            this.renderCurrentData();
+            
+            // UI状態を保存
+            dataManager.saveUIState();
+        }
+        
+        this.draggedCategoryIndex = undefined;
+    }
+
+    handleDragEnd(e) {
+        e.target.classList.remove('dragging');
+        
+        // 全てのドラッグオーバー状態をクリア
+        document.querySelectorAll('.category-section').forEach(section => {
+            section.classList.remove('drag-over');
+        });
+        
+        this.draggedCategoryIndex = undefined;
     }
 }
 

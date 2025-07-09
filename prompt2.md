@@ -143,9 +143,97 @@ change README.md
     
 ---
 
-README.mdに「Claude Code」を用いて作成していることを明記. 
+README.mdに「Claude Code」を用いて作成していることを明記. シンプルに.
 
 ---
+
+ultrathink: 現在の構成・使用から、CLAUDE2.mdを作成.
+
+---
+
+think hard; 保存の問題を修正. 変更を吟味し、最小限の修正計画を作成すること. 
+- 現象: 「編集モード」->「追加」で新しい要素を追加すると、「保存」を押していないにも関わらず、F5で更新すると、変更が反映されている.
+- 仮説: 「追加」すると localStrage に保存される.
+- I ask you to 
+    - analyze save-process
+    - make temporary JSON to write the changes in, then replace localStrage after pushing "保存" or enter Ctrl+S
+
+---
+
+think; 画面遷移の変更
+- F5を押したとき、直前のシーンと同じシーンから再開.
+- JavaScriptの公式リファレンスなどを参照し, そのような機能がすでにないか確認。あっても導入にコストがかかるのであれば、その計画でよい. 
+---
+
+think hard; エクスポート(JSON)に影響がないか念のため確認. 
+
+---
+
+ask; 保存前の情報(temporary data)がある場合、画面に表示されるのはtemporary data + localStrage?
+
+ ╭──────────────────────────────────────────────────────────────────────────╮ │
+│ │ 保存前の情報（temporary data）がある場合の画面表示について               │ │
+│ │                                                                          │ │
+│ │ 現在の実装分析                                                           │ │
+│ │                                                                          │ │
+│ │ データ表示の仕組み                                                       │ │
+│ │                                                                          │ │
+│ │ 1. getWorkingData()メソッド:                                             │ │
+│ │ getWorkingData() {                                                       │ │
+│ │     return this.isEditMode && this.tempData ? this.tempData : this.data; │ │
+│ │ }                                                                        │ │
+│ │ 2. データ取得の流れ:                                                     │ │
+│ │   - getCharacterData() → getWorkingData()を呼び出し                      │ │
+│ │   - getDataCount() → getWorkingData()を呼び出し                          │ │
+│ │   - globalSearch() → getWorkingData()を呼び出し                          │ │
+│ │                                                                          │ │
+│ │ 現在の動作                                                               │ │
+│ │                                                                          │ │
+│ │ 編集モード時（temporary dataがある場合）                                 │ │
+│ │                                                                          │ │
+│ │ - 表示データ: tempData（temporary data）のみ                             │ │
+│ │ - localStorage: 変更されない（保存されない）                             │ │
+│ │ - 画面表示: temporary dataの内容                                         │ │
+│ │                                                                          │ │
+│ │ 通常モード時                                                             │ │
+│ │                                                                          │ │
+│ │ - 表示データ: this.data（localStorageから読み込んだデータ）              │ │
+│ │ - 画面表示: localStorageの内容                                           │ │
+│ │                                                                          │ │
+│ │ 質問への回答                                                             │ │
+│ │                                                                          │ │
+│ │ 「temporary data + localStorage」ではなく、「temporary data              │ │
+│ │ のみ」が表示されます                                                     │ │
+│ │                                                                          │ │
+│ │ 理由                                                                     │ │
+│ │                                                                          │ │
+│ │ - tempDataはthis.dataの完全なコピー（deep copy）                         │ │
+│ │ - 編集モード開始時にJSON.parse(JSON.stringify(this.data))で作成          │ │
+│ │ - 編集中はtempDataが作業用データとして使用される                         │ │
+│ │ - getWorkingData()により、編集モード時はtempDataが、通常モード時はthis.d │ │
+│ │ ataが返される                                                            │ │
+│ │                                                                          │ │
+│ │ 確認事項                                                                 │ │
+│ │                                                                          │ │
+│ │ 現在の実装は正しく動作しており、temporary                                │ │
+│ │ dataがある場合は完全にそのデータが表示され、localStorageの内容とは独立し │ │
+│ │ ています。これにより、保存前の変更を安全にプレビューできます。           │ │
+│ ╰──────────────────────────────────────────────────────────────────────────╯ │
+│                                                                              
+
+---
+
+think; 
+- データインポート時、即座に locaStrage に保存される不具合を修正.
+    - データのインポート時にも, temporaryにデータを格納((「保存」を押されて初めてlocalStrageを書き換える)
+
+---
+
+ultrathink;
+- 既存のフレームワークの中で、「カテゴリ」をドラックアンドドロップによって”入れ替える”という操作は可能か？
+- 新関数の導入のコストを抑えた計画
+
+
 
 
 

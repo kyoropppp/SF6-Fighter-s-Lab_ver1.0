@@ -460,6 +460,63 @@ class DataManager {
             return false;
         }
     }
+
+    reorderCategories(characterId, mode, oldIndex, newIndex) {
+        if (this.isEditMode) {
+            this.reorderCategoriesTemp(characterId, mode, oldIndex, newIndex);
+            return;
+        }
+        
+        const section = this.data[mode];
+        const characterData = section.find(char => char.characterId === characterId);
+        
+        if (!characterData || !characterData.categoryNames) return;
+        
+        const categoryEntries = Object.entries(characterData.categoryNames);
+        if (oldIndex < 0 || oldIndex >= categoryEntries.length || newIndex < 0 || newIndex >= categoryEntries.length) {
+            return;
+        }
+        
+        // 配列の順序を変更
+        const [movedItem] = categoryEntries.splice(oldIndex, 1);
+        categoryEntries.splice(newIndex, 0, movedItem);
+        
+        // 新しい順序でオブジェクトを再構築
+        const newCategoryNames = {};
+        categoryEntries.forEach(([key, value]) => {
+            newCategoryNames[key] = value;
+        });
+        
+        characterData.categoryNames = newCategoryNames;
+    }
+
+    reorderCategoriesTemp(characterId, mode, oldIndex, newIndex) {
+        if (!this.isEditMode) return;
+        
+        const workingData = this.getWorkingData();
+        const section = workingData[mode];
+        const characterData = section.find(char => char.characterId === characterId);
+        
+        if (!characterData || !characterData.categoryNames) return;
+        
+        const categoryEntries = Object.entries(characterData.categoryNames);
+        if (oldIndex < 0 || oldIndex >= categoryEntries.length || newIndex < 0 || newIndex >= categoryEntries.length) {
+            return;
+        }
+        
+        // 配列の順序を変更
+        const [movedItem] = categoryEntries.splice(oldIndex, 1);
+        categoryEntries.splice(newIndex, 0, movedItem);
+        
+        // 新しい順序でオブジェクトを再構築
+        const newCategoryNames = {};
+        categoryEntries.forEach(([key, value]) => {
+            newCategoryNames[key] = value;
+        });
+        
+        characterData.categoryNames = newCategoryNames;
+        this.hasUnsavedChanges = true;
+    }
 }
 
 const dataManager = new DataManager();

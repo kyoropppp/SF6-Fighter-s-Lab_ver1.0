@@ -161,6 +161,9 @@ class Editor {
         }
         
         this.updateDataInfo();
+        
+        // UI状態を保存
+        dataManager.saveUIState();
     }
 
     openModal(mode, data) {

@@ -71,6 +71,9 @@ class CharacterRenderer {
         this.switchTab('strategies');
         this.updateCharacterName();
         this.renderCurrentData();
+        
+        // UI状態を保存
+        dataManager.saveUIState();
     }
 
     switchTab(tabName) {
@@ -99,6 +102,9 @@ class CharacterRenderer {
         
         this.toggleCharacterHeader(tabName);
         this.renderCurrentData();
+        
+        // UI状態を保存
+        dataManager.saveUIState();
     }
 
     toggleCharacterHeader(tabName) {

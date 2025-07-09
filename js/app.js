@@ -26,6 +26,7 @@ class App {
         
         this.setupUI();
         this.updateDataInfo();
+        this.restoreUIState();
         this.initialized = true;
     }
 
@@ -123,6 +124,9 @@ class App {
                 }
             }
         }
+        
+        // UI状態を保存
+        dataManager.saveUIState();
     }
 
     updateDataInfo() {
@@ -247,6 +251,43 @@ class App {
             currentMode: dataManager.getCurrentMode(),
             isEditMode: dataManager.getEditMode()
         };
+    }
+
+    restoreUIState() {
+        const restored = dataManager.restoreUIState();
+        if (!restored) return;
+
+        const uiState = dataManager.loadUIState();
+        if (!uiState) return;
+
+        // キャラクター選択の復元
+        if (uiState.currentCharacter && window.characterRenderer) {
+            window.characterRenderer.selectCharacter(uiState.currentCharacter);
+        }
+
+        // タブ選択の復元
+        if (uiState.currentMode && window.characterRenderer) {
+            window.characterRenderer.switchTab(uiState.currentMode);
+        }
+
+        // 編集モード状態の復元
+        if (uiState.isEditMode && window.editor) {
+            window.editor.isEditMode = uiState.isEditMode;
+            const editToggle = document.getElementById('editToggle');
+            if (editToggle) {
+                editToggle.textContent = uiState.isEditMode ? '表示モード' : '編集モード';
+                editToggle.classList.toggle('active', uiState.isEditMode);
+            }
+        }
+
+        // 検索クエリの復元
+        if (uiState.searchQuery) {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.value = uiState.searchQuery;
+                this.handleSearch(uiState.searchQuery);
+            }
+        }
     }
 }
 

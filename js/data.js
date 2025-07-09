@@ -360,6 +360,66 @@ class DataManager {
         this.tempData = null;
         this.hasUnsavedChanges = false;
     }
+
+    // UI状態管理メソッド
+    saveUIState() {
+        const uiState = {
+            currentCharacter: this.currentCharacter,
+            currentMode: this.currentMode,
+            isEditMode: this.isEditMode,
+            searchQuery: document.getElementById('searchInput')?.value || '',
+            timestamp: Date.now()
+        };
+        try {
+            localStorage.setItem('sf6_database_ui_state', JSON.stringify(uiState));
+        } catch (error) {
+            console.error('UI状態の保存に失敗しました:', error);
+        }
+    }
+
+    loadUIState() {
+        try {
+            const saved = localStorage.getItem('sf6_database_ui_state');
+            return saved ? JSON.parse(saved) : null;
+        } catch (error) {
+            console.error('UI状態の読み込みに失敗しました:', error);
+            return null;
+        }
+    }
+
+    clearUIState() {
+        try {
+            localStorage.removeItem('sf6_database_ui_state');
+        } catch (error) {
+            console.error('UI状態のクリアに失敗しました:', error);
+        }
+    }
+
+    restoreUIState() {
+        const uiState = this.loadUIState();
+        if (!uiState) return false;
+
+        // キャラクターの存在確認
+        if (uiState.currentCharacter) {
+            const characterExists = this.getCharacters().some(c => c.id === uiState.currentCharacter);
+            if (characterExists) {
+                this.currentCharacter = uiState.currentCharacter;
+            }
+        }
+
+        // モードの検証
+        if (uiState.currentMode && ['strategies', 'actions', 'combos', 'data-management'].includes(uiState.currentMode)) {
+            this.currentMode = uiState.currentMode;
+        }
+
+        // 編集モード状態の復元
+        this.isEditMode = uiState.isEditMode || false;
+        if (this.isEditMode) {
+            this.startEditMode();
+        }
+
+        return true;
+    }
 }
 
 const dataManager = new DataManager();

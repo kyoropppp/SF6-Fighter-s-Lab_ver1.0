@@ -562,7 +562,7 @@ body {
     margin-top: 2rem;
 }
 
-/* メッセージ */
+/* メッセージ（旧形式 - 互換性のため残す） */
 .message {
     padding: 1rem;
     margin: 1rem 0;
@@ -586,6 +586,65 @@ body {
     background-color: #d1ecf1;
     color: #0c5460;
     border-color: #17a2b8;
+}
+
+/* ポップアップメッセージ */
+.toast-popup {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    min-width: 300px;
+    max-width: 500px;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    font-weight: 500;
+    text-align: center;
+    opacity: 0;
+    animation: toastFadeIn 0.3s ease-out forwards;
+}
+
+.toast-popup.toast-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.toast-popup.toast-error {
+    background-color: #dc3545;
+    color: white;
+}
+
+.toast-popup.toast-info {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.toast-popup.toast-fade-out {
+    animation: toastFadeOut 0.3s ease-out forwards;
+}
+
+@keyframes toastFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes toastFadeOut {
+    from {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
 }
 
 /* レスポンシブデザイン */

@@ -175,20 +175,20 @@ class App {
     }
 
     showMessage(message, type = 'info') {
-        const messageElement = document.createElement('div');
-        messageElement.className = `message message-${type}`;
-        messageElement.textContent = message;
+        const toastElement = document.createElement('div');
+        toastElement.className = `toast-popup toast-${type}`;
+        toastElement.textContent = message;
         
-        const header = document.querySelector('.header');
-        if (header) {
-            header.appendChild(messageElement);
-            
+        document.body.appendChild(toastElement);
+        
+        setTimeout(() => {
+            toastElement.classList.add('toast-fade-out');
             setTimeout(() => {
-                if (messageElement.parentNode) {
-                    messageElement.remove();
+                if (toastElement.parentNode) {
+                    toastElement.remove();
                 }
-            }, 3000);
-        }
+            }, 300);
+        }, 3000);
     }
 
     handleError(error, context = '') {

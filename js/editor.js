@@ -314,18 +314,20 @@ class Editor {
     }
 
     showMessage(message, type = 'info') {
-        const messageElement = document.createElement('div');
-        messageElement.className = `message message-${type}`;
-        messageElement.textContent = message;
+        const toastElement = document.createElement('div');
+        toastElement.className = `toast-popup toast-${type}`;
+        toastElement.textContent = message;
         
-        const header = document.querySelector('.header');
-        if (header) {
-            header.appendChild(messageElement);
-            
+        document.body.appendChild(toastElement);
+        
+        setTimeout(() => {
+            toastElement.classList.add('toast-fade-out');
             setTimeout(() => {
-                messageElement.remove();
-            }, 3000);
-        }
+                if (toastElement.parentNode) {
+                    toastElement.remove();
+                }
+            }, 300);
+        }, 3000);
     }
 }
 

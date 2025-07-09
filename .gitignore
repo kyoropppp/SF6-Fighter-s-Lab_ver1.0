@@ -1,3 +1,4 @@
+.gitignore
 prompts.txt
 prompt2.md
 .\data\chunli_empty.json

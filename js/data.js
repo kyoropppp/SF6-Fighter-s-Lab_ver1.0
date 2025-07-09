@@ -363,11 +363,13 @@ class DataManager {
 
     // UI状態管理メソッド
     saveUIState() {
+        const characterList = document.querySelector('.character-list');
         const uiState = {
             currentCharacter: this.currentCharacter,
             currentMode: this.currentMode,
             isEditMode: this.isEditMode,
             searchQuery: document.getElementById('searchInput')?.value || '',
+            characterListScrollTop: characterList?.scrollTop || 0,
             timestamp: Date.now()
         };
         try {

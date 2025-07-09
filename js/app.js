@@ -288,6 +288,14 @@ class App {
                 this.handleSearch(uiState.searchQuery);
             }
         }
+
+        // キャラクターリストのスクロール位置の復元
+        if (uiState.characterListScrollTop !== undefined) {
+            const characterList = document.querySelector('.character-list');
+            if (characterList) {
+                characterList.scrollTop = uiState.characterListScrollTop;
+            }
+        }
     }
 }
 

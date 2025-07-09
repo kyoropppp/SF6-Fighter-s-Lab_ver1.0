@@ -320,6 +320,7 @@ body {
     background-color: #f8f9fa;
     border-radius: 8px;
     overflow: hidden;
+    transition: all 0.3s ease;
 }
 
 .category-header {
@@ -901,7 +902,7 @@ body {
 
 .category-section.dragging {
     opacity: 0.5;
-    transform: rotate(2deg);
+    transform: scale(0.98);
     z-index: 1000;
 }
 
@@ -913,6 +914,7 @@ body {
 .category-section.drag-over {
     border-color: #2980b9;
     background-color: #d4edda;
+    transform: scale(1.02);
 }
 
 /* 検索結果が空の場合のスタイル */

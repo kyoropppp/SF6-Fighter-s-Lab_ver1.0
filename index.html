@@ -33,24 +33,31 @@
 
             <!-- メインアプリケーション -->
             <div id="mainApp" class="main-app" style="display: none;">
-                <!-- タブナビゲーション -->
-                <nav class="tab-nav">
-                    <button class="tab-button active" data-tab="strategies">対策</button>
-                    <button class="tab-button" data-tab="actions">強い行動</button>
-                    <button class="tab-button" data-tab="combos">コンボ</button>
-                    <button class="tab-button" data-tab="data-management">データ管理</button>
-                </nav>
+                <div class="app-layout">
+                    <!-- キャラクター選択サイドバー -->
+                    <aside class="character-sidebar">
+                        <div class="sidebar-header">
+                            <h2>キャラクター選択</h2>
+                        </div>
+                        <div class="character-list">
+                            <div id="characterGrid" class="character-grid">
+                                <!-- キャラクターはJavaScriptで動的に生成 -->
+                            </div>
+                        </div>
+                    </aside>
 
-                <!-- キャラクター選択 -->
-                <div class="character-selection">
-                    <h2>キャラクター選択</h2>
-                    <div id="characterGrid" class="character-grid">
-                        <!-- キャラクターはJavaScriptで動的に生成 -->
-                    </div>
-                </div>
+                    <!-- メインコンテンツエリア -->
+                    <main class="main-content-area">
+                        <!-- タブナビゲーション -->
+                        <nav class="tab-nav">
+                            <button class="tab-button active" data-tab="strategies">対策</button>
+                            <button class="tab-button" data-tab="actions">強い行動</button>
+                            <button class="tab-button" data-tab="combos">コンボ</button>
+                            <button class="tab-button" data-tab="data-management">データ管理</button>
+                        </nav>
 
-                <!-- データ表示エリア -->
-                <div id="dataDisplay" class="data-display">
+                        <!-- データ表示エリア -->
+                        <div id="dataDisplay" class="data-display">
                     <div class="character-info">
                         <h2 id="selectedCharacterName">キャラクターを選択してください</h2>
                         <div class="controls">
@@ -96,7 +103,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </main>
                 </div>
             </div>
         </div>

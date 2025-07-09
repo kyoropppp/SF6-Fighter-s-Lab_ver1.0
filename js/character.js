@@ -27,8 +27,8 @@ class CharacterRenderer {
             characterCard.innerHTML = `
                 <div class="character-image">
                     <img src="${character.imageUrl}" alt="${character.name}" onerror="this.style.display='none'">
-                    <div class="character-name">${character.name}</div>
                 </div>
+                <div class="character-name">${character.name}</div>
             `;
             
             characterCard.addEventListener('click', () => {
@@ -63,6 +63,7 @@ class CharacterRenderer {
             selectedCard.classList.add('selected');
         }
         
+        this.switchTab('strategies');
         this.updateCharacterName();
         this.renderCurrentData();
     }

@@ -108,6 +108,45 @@ body {
     overflow: hidden;
 }
 
+/* アプリレイアウト */
+.app-layout {
+    display: flex;
+    min-height: 600px;
+}
+
+/* キャラクター選択サイドバー */
+.character-sidebar {
+    width: 280px;
+    background-color: #f8f9fa;
+    border-right: 1px solid #ddd;
+    flex-shrink: 0;
+}
+
+.sidebar-header {
+    padding: 1.5rem 1rem;
+    background-color: #e9ecef;
+    border-bottom: 1px solid #ddd;
+}
+
+.sidebar-header h2 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.2rem;
+}
+
+.character-list {
+    padding: 1rem;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* メインコンテンツエリア */
+.main-content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
 /* タブナビゲーション */
 .tab-nav {
     display: flex;
@@ -135,23 +174,55 @@ body {
     border-bottom: 3px solid #3498db;
 }
 
-/* キャラクター選択 */
-.character-selection {
-    padding: 2rem;
-    border-bottom: 1px solid #ddd;
+/* キャラクター選択（サイドバー版） */
+.character-sidebar .character-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-.character-selection h2 {
-    margin-bottom: 1rem;
-    color: #2c3e50;
+.character-sidebar .character-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
-.character-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 1rem;
+.character-sidebar .character-card:hover {
+    background-color: #f8f9fa;
+    border-color: #3498db;
+    transform: translateX(2px);
 }
 
+.character-sidebar .character-card.selected {
+    background-color: #3498db;
+    color: white;
+    border-color: #2980b9;
+}
+
+.character-sidebar .character-image {
+    flex-shrink: 0;
+}
+
+.character-sidebar .character-image img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.character-sidebar .character-name {
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+/* 従来のキャラクターカード（使用されていない部分を残す） */
 .character-card {
     background-color: #f8f9fa;
     border: 2px solid #e9ecef;
@@ -530,8 +601,44 @@ body {
         margin-bottom: 0.5rem;
     }
     
-    .character-grid {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    /* モバイル表示時はサイドバーを上部に移動 */
+    .app-layout {
+        flex-direction: column;
+    }
+    
+    .character-sidebar {
+        width: 100%;
+        max-height: 200px;
+        order: 1;
+    }
+    
+    .character-list {
+        max-height: 150px;
+        padding: 0.5rem;
+    }
+    
+    .character-sidebar .character-grid {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+    
+    .character-sidebar .character-card {
+        flex: 0 1 calc(50% - 0.125rem);
+        padding: 0.5rem;
+    }
+    
+    .character-sidebar .character-image img {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .character-sidebar .character-name {
+        font-size: 0.8rem;
+    }
+    
+    .main-content-area {
+        order: 2;
     }
     
     .character-info {

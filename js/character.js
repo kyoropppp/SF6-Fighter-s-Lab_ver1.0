@@ -37,6 +37,14 @@ class CharacterRenderer {
             
             characterGrid.appendChild(characterCard);
         });
+        
+        // 現在選択中のキャラクターがある場合、選択状態を復元
+        if (this.currentCharacter) {
+            const selectedCard = document.querySelector(`[data-character-id="${this.currentCharacter}"]`);
+            if (selectedCard) {
+                selectedCard.classList.add('selected');
+            }
+        }
     }
 
     setupTabNavigation() {

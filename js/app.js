@@ -91,8 +91,28 @@ class App {
     }
 
     handleSearch(query) {
-        if (window.characterRenderer && dataManager.getCurrentCharacter()) {
-            window.characterRenderer.searchItems(query);
+        // 検索状態の管理
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            // 検索入力の視覚的フィードバック
+            if (query.trim()) {
+                searchInput.classList.add('searching');
+            } else {
+                searchInput.classList.remove('searching');
+            }
+        }
+        
+        // グローバル検索の実行
+        if (window.characterRenderer) {
+            if (query.trim()) {
+                // 検索クエリがある場合は全データベース検索
+                window.characterRenderer.searchItems(query);
+            } else {
+                // 検索クエリが空の場合は通常表示に戻す
+                if (dataManager.getCurrentCharacter()) {
+                    window.characterRenderer.renderCurrentData();
+                }
+            }
         }
     }
 

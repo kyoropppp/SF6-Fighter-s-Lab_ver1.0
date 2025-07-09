@@ -219,6 +219,41 @@ class DataManager {
         });
         return count;
     }
+
+    globalSearch(query) {
+        const results = [];
+        const modes = ['strategies', 'actions', 'combos'];
+        
+        modes.forEach(mode => {
+            this.data[mode].forEach(characterData => {
+                Object.keys(characterData.categoryNames || {}).forEach(categoryKey => {
+                    const items = characterData[categoryKey] || [];
+                    items.forEach((item, index) => {
+                        if (this.matchesQuery(item, query)) {
+                            results.push({
+                                characterId: characterData.characterId,
+                                characterName: characterData.characterName,
+                                mode: mode,
+                                categoryKey: categoryKey,
+                                categoryName: characterData.categoryNames[categoryKey],
+                                item: item,
+                                itemIndex: index
+                            });
+                        }
+                    });
+                });
+            });
+        });
+        
+        return results;
+    }
+
+    matchesQuery(item, query) {
+        const q = query.toLowerCase();
+        return item.item_name.toLowerCase().includes(q) ||
+               item.content.toLowerCase().includes(q) ||
+               (item.description && item.description.toLowerCase().includes(q));
+    }
 }
 
 const dataManager = new DataManager();

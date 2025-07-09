@@ -253,20 +253,95 @@ class CharacterRenderer {
             return;
         }
         
-        const characterData = dataManager.getCharacterData(this.currentCharacter, this.currentMode);
-        if (!characterData) return;
+        // 全データベース検索
+        const globalResults = dataManager.globalSearch(query);
         
-        const filteredData = { ...characterData };
-        Object.keys(characterData.categoryNames || {}).forEach(categoryKey => {
-            const items = characterData[categoryKey] || [];
-            filteredData[categoryKey] = items.filter(item => 
-                item.item_name.toLowerCase().includes(query.toLowerCase()) ||
-                item.content.toLowerCase().includes(query.toLowerCase()) ||
-                (item.description && item.description.toLowerCase().includes(query.toLowerCase()))
-            );
+        // 検索結果を表示
+        this.renderSearchResults(globalResults, query);
+    }
+
+    renderSearchResults(results, query) {
+        const contentElement = document.getElementById(`${this.currentMode}Content`);
+        contentElement.innerHTML = '';
+        
+        if (results.length === 0) {
+            contentElement.innerHTML = `<p>「${query}」の検索結果がありません</p>`;
+            return;
+        }
+        
+        const searchResultsContainer = document.createElement('div');
+        searchResultsContainer.className = 'search-results';
+        
+        const searchHeader = document.createElement('div');
+        searchHeader.className = 'search-header';
+        searchHeader.innerHTML = `<h3>「${query}」の検索結果 (${results.length}件)</h3>`;
+        searchResultsContainer.appendChild(searchHeader);
+        
+        results.forEach(result => {
+            const resultElement = this.createSearchResultElement(result);
+            searchResultsContainer.appendChild(resultElement);
         });
         
-        this.renderCategoryData(contentElement, filteredData);
+        contentElement.appendChild(searchResultsContainer);
+    }
+
+    createSearchResultElement(result) {
+        const div = document.createElement('div');
+        div.className = 'search-result-item';
+        
+        const modeDisplayNames = {
+            'strategies': '対策',
+            'actions': '強い行動',
+            'combos': 'コンボ'
+        };
+        
+        div.innerHTML = `
+            <div class="result-header">
+                <strong>${result.characterName}</strong> - ${modeDisplayNames[result.mode]} - ${result.categoryName}
+            </div>
+            <div class="result-content">
+                <h4>${result.item.item_name}</h4>
+                <p>${result.item.content}</p>
+                ${result.item.description ? `<p class="description">${result.item.description}</p>` : ''}
+            </div>
+        `;
+        
+        // クリックでジャンプ
+        div.addEventListener('click', () => {
+            this.jumpToResult(result);
+        });
+        
+        return div;
+    }
+
+    jumpToResult(result) {
+        // キャラクターとモードを切り替え
+        this.selectCharacter(result.characterId);
+        this.switchTab(result.mode);
+        
+        // 少し待ってから該当アイテムをハイライト
+        setTimeout(() => {
+            this.highlightItem(result.categoryKey, result.itemIndex);
+        }, 100);
+    }
+
+    highlightItem(categoryKey, itemIndex) {
+        // 該当カテゴリ内のアイテムを検索
+        const categoryElements = document.querySelectorAll('.category-section');
+        categoryElements.forEach(categoryElement => {
+            const items = categoryElement.querySelectorAll('.data-item');
+            items.forEach((item, index) => {
+                if (index === itemIndex) {
+                    item.classList.add('highlighted');
+                    item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // 3秒後にハイライト解除
+                    setTimeout(() => {
+                        item.classList.remove('highlighted');
+                    }, 3000);
+                }
+            });
+        });
     }
 }
 

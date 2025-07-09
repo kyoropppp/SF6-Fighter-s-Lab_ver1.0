@@ -210,7 +210,7 @@ class App {
     getApplicationInfo() {
         return {
             version: '2.0.0',
-            name: 'ストリートファイター6 データベース',
+            name: 'SF6 Fighter\'s Lab',
             lastSaved: dataManager.getLastSaved(),
             dataCount: dataManager.getDataCount(),
             characters: dataManager.getCharacters().length,

@@ -63,6 +63,11 @@ class CharacterRenderer {
             selectedCard.classList.add('selected');
         }
         
+        const characterInfo = document.querySelector('.character-info');
+        if (characterInfo) {
+            characterInfo.classList.remove('hidden');
+        }
+        
         this.switchTab('strategies');
         this.updateCharacterName();
         this.renderCurrentData();
@@ -92,7 +97,19 @@ class CharacterRenderer {
             activePanel.classList.add('active');
         }
         
+        this.toggleCharacterHeader(tabName);
         this.renderCurrentData();
+    }
+
+    toggleCharacterHeader(tabName) {
+        const characterInfo = document.querySelector('.character-info');
+        if (characterInfo) {
+            if (tabName === 'data-management') {
+                characterInfo.classList.add('hidden');
+            } else {
+                characterInfo.classList.remove('hidden');
+            }
+        }
     }
 
     updateCharacterName() {
